@@ -5,7 +5,6 @@ from sys import path
 from threading import Thread
 from time import sleep
 from http.client import RemoteDisconnected
-from requests import codes as requests_codes
 from requests.exceptions import (ProxyError, ConnectionError, SSLError, HTTPError)
 from socket import error as socket_error
 from socket import timeout as socket_timeout
@@ -35,7 +34,7 @@ class Bruter:
             browser.build_payload()
             response = browser.post()
 
-            if response.status_code == requests_codes.ok and response_error not in response.text:
+            if response.ok and response_error not in response.text:
                 self.proxy_manager.disable(proxy, tested=True)
                 self.tested += 1
                 self.last_combo = combo
