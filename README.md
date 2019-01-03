@@ -1,6 +1,6 @@
 # Instagram Bruter:
 
-Start a Instagram Bruteforce Attack using a proxylist and a combolist.
+Start an Instagram Bruteforce Attack using a proxylist and a combolist.
 
 You have to call [main.py](https://github.com/Castorps/Instagram-Bruter/blob/master/main.py) using four arguments:
   - `combo_file`: Path to the combolist you want to use.
