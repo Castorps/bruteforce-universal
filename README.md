@@ -19,12 +19,16 @@ If you want to change other variables (like the connection timeout and how often
 ### Requirements:
   - asciimatics
   - requests
+  - requests[socks]
  
  Install these using Python's pip:
+  ``
  
-   `python -m pip install asciimatics`
+  `python -m pip install asciimatics`
 
-   `python -m pip install requirements`
+  `python -m pip install requests`
+   
+  `python -m pip install requests[socks]`
  
 
 ### Notes:
