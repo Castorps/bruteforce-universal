@@ -57,7 +57,7 @@ If you want to change other variables (like the connection timeout and how often
   
   - It shouldn't be too hard to use this tool for other websites, if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately.
   
-  - There are other tools to generate combolists (see "combomaker") and proxylists (see "proxy scraper"). You may include code to scrape proxies in [proxy_scraper.py's](https://github.com/Castorps/Instagram-Bruter/blob/master/module/proxy_scraper.py) `scrape()` function.
+  - There are other tools to generate combolists (see "combomaker") and proxylists (see "proxy scraper"). You may include code to scrape proxies in [proxy_scraper.py's `scrape()` function](https://github.com/Castorps/Instagram-Bruter/blob/d07c8c047bcbe12345f0236f700a96983d5e010f/module/proxy_scraper.py#L9).
 
 
 ### Workflow:
