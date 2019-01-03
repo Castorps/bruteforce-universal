@@ -1,7 +1,7 @@
-from lib.bruter import Bruter
-from lib.const import (combos_max, proxies_minimum)
-from lib.proxy_manager import ProxyManager
-from lib.proxy_scraper import ProxyScraper
+from module.bruter import Bruter
+from module.const import (combos_max, proxies_minimum)
+from module.proxy_manager import ProxyManager
+from module.proxy_scraper import ProxyScraper
 
 import argparse
 from asciimatics.screen import Screen
@@ -14,6 +14,7 @@ from time import (sleep, time)
 def create_combo_queue(input_combo_file):
     queue = deque()
     combo_count = 0
+
     with open(input_combo_file, 'r', encoding='utf-8', errors='ignore') as combo_file:
         for combo in combo_file:
             if combo_count >= combos_max:
