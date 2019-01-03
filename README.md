@@ -13,7 +13,7 @@ On an ordinary Windows machine the starting command might look like this:
 `python main.py "C:\my user\combolist.txt" "C:\my user\proxylist.txt" "C:\my user\hits.txt" 250`
 
  
-If you want to change other variables (like the connection timeout and how often a proxy may be used for authentication attempts during a certain time span), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/const.py).
+If you want to change other variables (like the connection timeout and how often a proxy may be used for authentication attempts during a certain time span), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
 
 
 ### Requirements:
@@ -55,23 +55,23 @@ If you want to change other variables (like the connection timeout and how often
     `127.0.0.1:25420:socks5:my_proxy_username:my_proxy_password`
     
   
-  - It shouldn't be too hard to use this tool for other websites, if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/browser.py) appropriately.
+  - It shouldn't be too hard to use this tool for other websites, if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately.
   
-  - There are other tools to generate combolists (see "combomaker") and proxylists (see "proxy scraper"). You may include code to scrape proxies in [proxy_scraper.py's](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/proxy_scraper.py) `scrape()` function.
+  - There are other tools to generate combolists (see "combomaker") and proxylists (see "proxy scraper"). You may include code to scrape proxies in [proxy_scraper.py's](https://github.com/Castorps/Instagram-Bruter/blob/master/module/proxy_scraper.py) `scrape()` function.
 
 
 ### Workflow:
   1. Load combolist into memory.
   
-  2. Start the [Proxy Scraper](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/proxy_scraper.py), which loads proxies from the proxylist into memory. It will automatically load proxies from the proxylist if a limit is undershot.
+  2. Start the [Proxy Scraper](https://github.com/Castorps/Instagram-Bruter/blob/master/module/proxy_scraper.py), which loads proxies from the proxylist into memory. It will automatically load proxies from the proxylist if a limit is undershot.
   
-  2. Start the [Proxy Manager](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/proxy_manager.py), which takes care of managing proxies (see below). 
+  2. Start the [Proxy Manager](https://github.com/Castorps/Instagram-Bruter/blob/master/module/proxy_manager.py), which takes care of managing proxies (see below). 
   
-  3. Start [Bruter](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/bruter.py), which starts Bots, these are workers that each take a username-password combination and a proxy and try to authenticate using the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/browser.py). After being used, each proxy gets disabled for a few seconds, during this period of time, it may not be used for authentication attempts.
+  3. Start [Bruter](https://github.com/Castorps/Instagram-Bruter/blob/master/module/bruter.py), which starts Bots, these are workers that each take a username-password combination and a proxy and try to authenticate using the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py). After being used, each proxy gets disabled for a few seconds, during this period of time, it may not be used for authentication attempts.
   
   4. The script keeps track of the number of authentication attemps, tested credentials, attempts per minute on average, tests per minute on average, tests of each proxy and retries of each proxy.
   
-  5. The [Proxy Manager](https://github.com/Castorps/Instagram-Bruter/blob/master/lib/proxy_manager.py) will remove proxies that don't have a sufficient success ratio (tested credentials divided by retries) and it will enable proxies that have been disabled once a certain waiting time has passed.
+  5. The [Proxy Manager](https://github.com/Castorps/Instagram-Bruter/blob/master/module/proxy_manager.py) will remove proxies that don't have a sufficient success ratio (tested credentials divided by retries) and it will enable proxies that have been disabled once a certain waiting time has passed.
   
 Any improvements, ideas, suggestions are welcome!
 
