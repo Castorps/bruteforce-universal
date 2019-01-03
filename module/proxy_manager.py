@@ -112,4 +112,5 @@ class ProxyManager:
                                                    proxy_stats[0],
                                                    proxy_stats[1],
                                                    proxy_stats[2]])
+
             sleep(0.5)
