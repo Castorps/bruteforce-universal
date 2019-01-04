@@ -70,14 +70,6 @@ class ProxyManager:
         if ban_flag:
             proxy_stats[6] = True
 
-        self.proxies[proxy[0]] = [proxy_stats[0],
-                                  proxy_stats[1],
-                                  proxy_stats[2],
-                                  proxy_stats[3],
-                                  proxy_stats[4],
-                                  proxy_stats[5],
-                                  proxy_stats[6]]
-
     def stop(self):
         self.isAlive = False
 
@@ -91,22 +83,18 @@ class ProxyManager:
 
                     if proxy_ratio < proxy_success_ratio:
                         del self.proxies[proxy]
+                        continue
 
-                if proxy_stats[5]:  # disabled?
+                if proxy_stats[5]:
 
-                    if proxy_stats[6]:  # banned?
+                    if proxy_stats[6]:
                         time_limit = proxy_ban_time
                     else:
                         time_limit = proxy_timeout
 
                     if (time() - proxy_stats[5]) >= time_limit:
-                        self.proxies[proxy] = [proxy_stats[0],
-                                               proxy_stats[1],
-                                               proxy_stats[2],
-                                               proxy_stats[3],
-                                               proxy_stats[4],
-                                               None,
-                                               False]
+                        proxy_stats[5] = None
+                        proxy_stats[6] = False
 
                         self.proxies_ready.append([proxy,
                                                    proxy_stats[0],
