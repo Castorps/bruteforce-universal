@@ -58,17 +58,21 @@ class ProxyManager:
         return self.proxies_ready.popleft()
 
     def disable(self, proxy, tested=False, retries=False, ban_flag=False):
-        proxy_stats = self.proxies[proxy[0]]
-        proxy_stats[5] = time()
+        try:
+            proxy_stats = self.proxies[proxy[0]]
+            proxy_stats[5] = time()
 
-        if tested:
-            proxy_stats[3] += 1
+            if tested:
+                proxy_stats[3] += 1
 
-        if retries:
-            proxy_stats[4] += 1
+            if retries:
+                proxy_stats[4] += 1
 
-        if ban_flag:
-            proxy_stats[6] = True
+            if ban_flag:
+                proxy_stats[6] = True
+                
+        except KeyError:
+            return
 
     def stop(self):
         self.isAlive = False
