@@ -6,7 +6,7 @@ Start an Instagram Bruteforce Attack using a proxylist and a combolist.
 
 You have to call [main.py](https://github.com/Castorps/Instagram-Bruter/blob/master/main.py) using four arguments:
   - `combo_file`: Path to the combolist you want to use.
-  - `proxy_file`: Path to the proxylist you want to use (the script loads proxies, but does not scrape them you!).
+  - `proxy_file`: Path to the proxylist you want to use (the script loads proxies, but does not scrape them for you!).
   - `hits_file`: Path to a file you want to store working credentials in (the script will create this file).
   - `bots`: The number of bots to use.
   
@@ -24,7 +24,6 @@ If you want to change other variables (like the connection timeout and how often
   - requests[socks]
  
  Install these using Python's pip:
-  ``
  
   `python -m pip install asciimatics`
 
