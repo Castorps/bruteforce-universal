@@ -6,7 +6,6 @@ from module.proxy_scraper import ProxyScraper
 import argparse
 from asciimatics.screen import Screen
 from collections import deque
-from ctypes import windll
 from threading import Thread
 from time import (sleep, time)
 
@@ -29,34 +28,40 @@ def create_combo_queue(input_combo_file):
     return queue
 
 
+def screen_clear(screen, lines):
+    for i in range(lines):
+        screen.print_at(' ' * 50, 0, i)
+
+    
 def main(screen):
 
     parser = argparse.ArgumentParser()
     parser.add_argument('combo_file', help='The path to your combolist', type=str)
     parser.add_argument('proxy_file', help='The path to your proxylist', type=str)
-    parser.add_argument('hits_file', help='The path to the file you want to save your working credentials in', type=str)
     parser.add_argument('bots', help='How many bots you want to use', type=int)
     args = parser.parse_args()
-
-    windll.kernel32.SetConsoleTitleW("Bruter: Creating Combo Queue ...")
+    
+    screen.print_at('Bruter Status:' + ' ' * 2 + 'Creating Combo Queue', 2, 1)
+    screen.refresh()
     combo_queue = create_combo_queue(args.combo_file)
-
-    windll.kernel32.SetConsoleTitleW("Bruter: Scraping proxies ...")
+    
+    screen_clear(screen, 2)
+    screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
+    screen.refresh()
     proxy_scraper = ProxyScraper(args.proxy_file)
     proxy_scraper.scrape()
 
-    windll.kernel32.SetConsoleTitleW("Bruter: Starting Proxy-Manager and loading proxies ...")
     proxy_manager = ProxyManager()
     proxy_manager.put(proxy_scraper.get())
     proxy_manager_thread = Thread(target=proxy_manager.start)
     proxy_manager_thread.daemon = True
     proxy_manager_thread.start()
 
-    windll.kernel32.SetConsoleTitleW("Bruter: Starting Bruter ...")
-    engine = Bruter(args.bots, args.hits_file, combo_queue, proxy_manager)
+    screen_clear(screen, 2)
+    screen.print_at('Bruter Status:' + ' ' * 2 + 'Starting Bots', 2, 1)
+    screen.refresh()
+    engine = Bruter(args.bots, combo_queue, proxy_manager)
     engine.start()
-
-    windll.kernel32.SetConsoleTitleW("Bruter: ")
 
     tested_per_min = 0
     attempts_per_min = 0
@@ -75,7 +80,8 @@ def main(screen):
             minutes, seconds = divmod(rem, 60)
             time_running_format = '{:0>2}:{:0>2}:{:05.2f}'.format(int(hours), int(minutes), seconds)
 
-            screen.print_at('Bruter Stats:' + ' ' * 3, 2, 1)
+            screen_clear(screen, 12)
+            screen.print_at('Bruter Status:' + ' ' * 2 + 'Running', 2, 1)
             screen.print_at('Time:' + ' ' * 11 + time_running_format, 2, 3)
             screen.print_at('Bots:' + ' ' * 11 + str(len(engine.bots)), 2, 4)
             screen.print_at('Combos:' + ' ' * 9 + str(len(list(combo_queue))), 2, 5)
@@ -107,7 +113,9 @@ def main(screen):
             sleep(0.25)
 
     except KeyboardInterrupt:
-        windll.kernel32.SetConsoleTitleW("Bruter: Stopping, please be patient ...")
+        screen_clear(screen, 2)
+        screen.print_at('Bruter Status:' + ' ' * 2 + 'Stopping', 2, 1)
+        screen.refresh()
         engine.stop()
         proxy_manager.stop()
         proxy_manager_thread.join()
