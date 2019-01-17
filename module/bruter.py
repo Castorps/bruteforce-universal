@@ -1,17 +1,27 @@
 from .browser import Browser
 from .const import (response_success, response_error)
 
-from sys import path
+from sys import (path, platform)
 from threading import Thread
 from time import sleep
 
 
 class Bruter:
 
-    def __init__(self, input_max_threads, input_hits_file, combo_queue, proxy_manager):
+    def __init__(self, input_max_threads, combo_queue, proxy_manager):
+        
+        if 'linux' in platform or 'darwin' in platform:
+            path_hits_file = path[0] + '/hits.txt'
+            
+        elif 'win' in platform:
+            path_hits_file = path[0] + '\\hits.txt'
+        
+        else:
+            path_hits_file = path[0] + '/hits.txt'
+        
         self.combo_queue = combo_queue
         self.proxy_manager = proxy_manager
-        self.hits = open(input_hits_file, 'a+', encoding='utf-8', errors='ignore')
+        self.hits = open(path_hits_file, 'a+', encoding='utf-8', errors='ignore')
         self.bots = []
         self.last_combo = ['', '']
         self.max_threads = input_max_threads
