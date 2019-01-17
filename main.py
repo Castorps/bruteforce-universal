@@ -105,10 +105,11 @@ def main(screen):
                 attempts_before_last_min = (engine.tested + engine.retries)
 
             if proxy_manager.size < proxies_minimum:
-                windll.kernel32.SetConsoleTitleW("Bruter: Scraping proxies ...")
+                screen_clear(screen, 2)
+                screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
+                screen.refresh()
                 proxy_scraper.scrape()
                 proxy_manager.put(proxy_scraper.get())
-                windll.kernel32.SetConsoleTitleW("Bruter: ")
 
             sleep(0.25)
 
