@@ -4,15 +4,18 @@ Start an Instagram Bruteforce Attack using a proxylist and a combolist.
 
 ![Instagram-Bruter example](https://github.com/Castorps/Instagram-Bruter/blob/master/images/example.JPG)
 
-You have to call [main.py](https://github.com/Castorps/Instagram-Bruter/blob/master/main.py) using four arguments:
+You have to call [main.py](https://github.com/Castorps/Instagram-Bruter/blob/master/main.py) using three arguments:
   - `combo_file`: Path to the combolist you want to use.
   - `proxy_file`: Path to the proxylist you want to use (the script loads proxies, but does not scrape them for you!).
-  - `hits_file`: Path to a file you want to store working credentials in (the script will create this file).
   - `bots`: The number of bots to use.
   
 On an ordinary Windows machine the starting command might look like this:
 
-`python main.py "C:\my user\combolist.txt" "C:\my user\proxylist.txt" "C:\my user\hits.txt" 250`
+`python main.py "C:\my user\combolist.txt" "C:\my user\proxylist.txt" 250`
+
+On Linux it might look like this:
+
+`python main.py "/home/user/combolist" "/home/user/proxylist" 250`
 
  
 If you want to change other variables (like the connection timeout and how often a proxy may be used for authentication attempts during a certain time span), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
@@ -62,7 +65,7 @@ If you want to change other variables (like the connection timeout and how often
   
   - It shouldn't be too hard to use this tool for other websites, if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately.
   
-  - There are other tools to generate combolists (see "combomaker") and proxylists (see "proxy scraper"). You may include code to scrape proxies in [proxy_scraper.py's `scrape()` function](https://github.com/Castorps/Instagram-Bruter/blob/d07c8c047bcbe12345f0236f700a96983d5e010f/module/proxy_scraper.py#L9).
+  - There are other tools to generate combolists (see "combolist maker") and proxylists (see "proxy scraper"). You may include code to scrape proxies in [proxy_scraper.py's `scrape()` function](https://github.com/Castorps/Instagram-Bruter/blob/d07c8c047bcbe12345f0236f700a96983d5e010f/module/proxy_scraper.py#L9).
 
 
 ### Workflow:
