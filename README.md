@@ -11,11 +11,11 @@ You have to call [main.py](https://github.com/Castorps/Instagram-Bruter/blob/mas
   
 On an ordinary Windows machine the starting command might look like this:
 
-`python main.py "C:\my user\combolist.txt" "C:\user\myuser\proxylist.txt" 250`
+`python main.py "C:\user\myuser\combolist.txt" "C:\user\myuser\proxylist.txt" 250`
 
 On Linux it might look like this:
 
-`python ./main.py "/home/user/combolist" "/home/myuser/proxylist" 250`
+`python ./main.py "/home/myuser/combolist" "/home/myuser/proxylist" 250`
 
  
 If you want to change other variables (like the connection timeout, where to pickup the attack after restarting the script and how often a proxy may be used for authentication attempts during a certain time span), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
