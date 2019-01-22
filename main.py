@@ -34,7 +34,7 @@ def create_combo_queue(input_combo_file):
 
 def screen_clear(screen, lines):
     for i in range(lines):
-        screen.print_at(' ' * 50, 0, i)
+        screen.print_at(' ' * 80, 0, i)
 
     
 def main(screen):
@@ -84,17 +84,18 @@ def main(screen):
             minutes, seconds = divmod(rem, 60)
             time_running_format = '{:0>2}:{:0>2}:{:05.2f}'.format(int(hours), int(minutes), seconds)
 
-            screen_clear(screen, 12)
+            screen_clear(screen, 13)
             screen.print_at('Bruter Status:' + ' ' * 2 + 'Running', 2, 1)
             screen.print_at('Time:' + ' ' * 11 + time_running_format, 2, 3)
             screen.print_at('Bots:' + ' ' * 11 + str(len(engine.bots)), 2, 4)
-            screen.print_at('Combos:' + ' ' * 9 + str(len(list(combo_queue))), 2, 5)
-            screen.print_at('Proxies:' + ' ' * 8 + str(proxy_manager.size), 2, 6)
-            screen.print_at('Last Combo:' + ' ' * 5 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 7)
-            screen.print_at('Tested:' + ' ' * 9 + str(engine.tested), 2, 9)
-            screen.print_at('Attempts:' + ' ' * 7 + str(engine.tested + engine.retries), 2, 10)
-            screen.print_at('Tested/min:' + ' ' * 5 + str(tested_per_min), 2, 11)
-            screen.print_at('Attempts/min:' + ' ' * 3 + str(attempts_per_min), 2, 12)
+            screen.print_at('Hits:' + ' ' * 11 + str(engine.hits), 2, 5)
+            screen.print_at('Combos:' + ' ' * 9 + str(len(list(combo_queue))), 2, 6)
+            screen.print_at('Proxies:' + ' ' * 8 + str(proxy_manager.size), 2, 7)
+            screen.print_at('Last Combo:' + ' ' * 5 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 8)
+            screen.print_at('Tested:' + ' ' * 9 + str(engine.tested), 2, 10)
+            screen.print_at('Attempts:' + ' ' * 7 + str(engine.tested + engine.retries), 2, 11)
+            screen.print_at('Tested/min:' + ' ' * 5 + str(tested_per_min), 2, 12)
+            screen.print_at('Attempts/min:' + ' ' * 3 + str(attempts_per_min), 2, 13)
             screen.refresh()
 
             if (time() - time_checked) >= 60:
