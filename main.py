@@ -89,7 +89,7 @@ def main(screen):
             screen.print_at('Time:' + ' ' * 11 + time_running_format, 2, 3)
             screen.print_at('Bots:' + ' ' * 11 + str(len(engine.bots)), 2, 4)
             screen.print_at('Hits:' + ' ' * 11 + str(engine.hits), 2, 5)
-            screen.print_at('Combos:' + ' ' * 9 + str(len(list(combo_queue))), 2, 6)
+            screen.print_at('Combos:' + ' ' * 9 + str(len(combo_queue)), 2, 6)
             screen.print_at('Proxies:' + ' ' * 8 + str(proxy_manager.size), 2, 7)
             screen.print_at('Last Combo:' + ' ' * 5 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 8)
             screen.print_at('Tested:' + ' ' * 9 + str(engine.tested), 2, 10)
