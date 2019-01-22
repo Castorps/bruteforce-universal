@@ -117,6 +117,8 @@ def main(screen):
                 proxy_manager.put(proxy_scraper.get())
 
             sleep(0.25)
+            
+        raise(KeyboardInterrupt)
 
     except KeyboardInterrupt:
         screen_clear(screen, 2)
