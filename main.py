@@ -1,5 +1,5 @@
 from module.bruter import Bruter
-from module.const import (combos_max, proxies_minimum)
+from module.const import (combos_max, combos_start, proxies_minimum)
 from module.proxy_manager import ProxyManager
 from module.proxy_scraper import ProxyScraper
 
@@ -16,11 +16,15 @@ def create_combo_queue(input_combo_file):
 
     with open(input_combo_file, 'r', encoding='utf-8', errors='ignore') as combo_file:
         for combo in combo_file:
-            if combo_count >= combos_max:
-                return queue
-
             if ':' in combo:
                 combo_count += 1
+                
+                if combo_count < combos_start:
+                    continue
+                
+                if combo_count > combos_max:
+                    return queue
+                
                 combo = combo.replace('\n', '').replace('\r', '').replace('\t', '')
                 combo_parts = combo.split(':')
                 queue.append([combo_parts[0], combo_parts[1]])
