@@ -21,10 +21,11 @@ class Bruter:
         
         self.combo_queue = combo_queue
         self.proxy_manager = proxy_manager
-        self.hits = open(path_hits_file, 'a+', encoding='utf-8', errors='ignore')
+        self.hits_file = open(path_hits_file, 'a+', encoding='utf-8', errors='ignore')
         self.bots = []
         self.last_combo = ['', '']
         self.max_threads = input_max_threads
+        self.hits = 0
         self.tested = 0
         self.retries = 0
         self.isAlive = False
@@ -44,7 +45,8 @@ class Bruter:
                 self.last_combo = combo
 
                 if response_success in response.text:
-                    self.hits.write(combo[0] + ':' + combo[1] + '\n')
+                    self.hits_file.write(combo[0] + ':' + combo[1] + '\n')
+                    self.hits += 1
 
             else:
                 raise()
@@ -74,7 +76,7 @@ class Bruter:
         for bot in self.bots:
             bot.join()
 
-        self.hits.close()
+        self.hits_file.close()
 
     def start(self):
         self.isAlive = True
