@@ -71,8 +71,8 @@ def main(screen):
     attempts_per_min = 0
     tested_before_last_min = 0
     attempts_before_last_min = 0
-    tested_per_min_list = deque(maxlen=10)
-    attempts_per_min_list = deque(maxlen=10)
+    tested_per_min_list = deque(maxlen=5)
+    attempts_per_min_list = deque(maxlen=5)
 
     time_start = time()
     time_checked = time_start
