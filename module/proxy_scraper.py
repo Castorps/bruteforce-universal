@@ -50,4 +50,3 @@ class ProxyScraper:
         proxies = self.proxies
         self.proxies = set()
         return proxies
-    
