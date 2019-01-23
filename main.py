@@ -37,12 +37,11 @@ def screen_clear(screen, lines):
     for i in range(lines):
         screen.print_at(' ' * 80, 0, i+1)
 
-    
+
 def main(screen):
 
     parser = argparse.ArgumentParser()
     parser.add_argument('combo_file', help='The path to your combolist', type=str)
-    parser.add_argument('proxy_file', help='The path to your proxylist', type=str)
     parser.add_argument('bots', help='How many bots you want to use', type=int)
     args = parser.parse_args()
     
@@ -54,10 +53,10 @@ def main(screen):
         
     else:
         path_separator = '/'
-    
+
     path_output_file = path[0] + path_separator + 'output.txt'
     path_hits_file = path[0] + path_separator + 'hits.txt'
-    
+
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Creating Combo Queue', 2, 1)
     screen.refresh()
     combo_queue = create_combo_queue(args.combo_file)
@@ -65,7 +64,7 @@ def main(screen):
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
     screen.refresh()
-    proxy_scraper = ProxyScraper(args.proxy_file)
+    proxy_scraper = ProxyScraper()
     proxy_scraper.scrape()
 
     proxy_manager = ProxyManager()
@@ -107,7 +106,7 @@ def main(screen):
             screen.print_at('Combolist:' + ' ' * 13 + args.combo_file, 2, 7)
             screen.print_at('Combolist Position:' + ' ' * 4 + str(engine.tested + combos_start), 2, 8)
             screen.print_at('Loaded Combos:' + ' ' * 9 + str(len(combo_queue)), 2, 9)
-            screen.print_at('Loaded Proxies:' + ' ' * 6 + str(proxy_manager.size), 2, 10)
+            screen.print_at('Loaded Proxies:' + ' ' * 8 + str(proxy_manager.size), 2, 10)
             screen.print_at('Last Combo:' + ' ' * 12 + engine.last_combo[0] + ':' + engine.last_combo[1], 2, 11)
             screen.print_at('Tested:' + ' ' * 16 + str(engine.tested), 2, 13)
             screen.print_at('Attempts:' + ' ' * 14 + str(engine.tested + engine.retries), 2, 14)
@@ -135,7 +134,7 @@ def main(screen):
                 output_file = open(path_output_file, 'w', encoding='utf-8', errors='ignore')
                 output_file.write(output)
                 output_file.close()
-                
+
             if proxy_manager.size < proxies_minimum:
                 screen_clear(screen, 1)
                 screen.print_at('Bruter Status:' + ' ' * 9 + 'Getting Proxies', 2, 1)
