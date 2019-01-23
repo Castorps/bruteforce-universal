@@ -51,7 +51,7 @@ If you want to change other variables (like the connection timeout, where to pic
 
   - There are other tools to generate combolists (see "combolist maker").
   
-  - If you have stopped an attack, there is an output.txt in the same folder as your script, look at the Combolist Position and set the value of `combos_start` in the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) file to this. The next time you start an attack, the proxy will start from this position in the combolist. Remember to set `combos_start` to 0 again if you start an attack using a new combolist!
+  - If you have stopped an attack, there is an output.txt in the same folder as your script, look at the Combolist Position and set the value of [`combos_start` in the constants](https://github.com/Castorps/Instagram-Bruter/blob/aebf33ea970156b6441c1eb321b839565d463116/module/const.py#L5) file to this. The next time you start an attack, the script will start from this position in the combolist. Remember to set `combos_start` to 0 again if you start an attack using a new combolist!
 
 
 ##### ~~~ Inspired by [Pure-L0G1C's Instagram Bruteforce Tool](https://github.com/Pure-L0G1C/Instagram) ~~~
