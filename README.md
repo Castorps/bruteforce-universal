@@ -20,11 +20,11 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
  
  Install these using Python's pip:
  
-    `python -m pip install asciimatics`
+    python -m pip install asciimatics
 
-    `python -m pip install requests`
+    python -m pip install requests
 
-    `python -m pip install requests[socks]`
+    python -m pip install requests[socks]
 
 
 ### Usage:
@@ -37,17 +37,17 @@ You have to start [bruteforce.py](https://github.com/Castorps/Instagram-Bruter/b
     
 Like this:
 
-    `python bruteforce.py "<combo_file>" <bots>`
+    python bruteforce.py "<combo_file>" <bots>
 
 
 Example for Windows:
 
-    `python bruteforce.py "C:\user\myuser\combolist.txt" 250`
+    python bruteforce.py "C:\user\myuser\combolist.txt" 250
 
 
 Example for Linux:
 
-    `python ./bruteforce.py "/home/myuser/combolist" 250`
+    python ./bruteforce.py "/home/myuser/combolist" 250
 
 
 ### Configuration:
@@ -56,13 +56,13 @@ The combolist is a text file, each line contains a username and a password in `u
 
 A few examples:
 
-    `myusername:mypassword`
+    myusername:mypassword
 
-    `daniel:abc123`
+    daniel:abc123
 
-    `daniel:isthismypassword`
+    daniel:isthismypassword
 
-    `alex:987654321`
+    alex:987654321
 
 
 #### Personal Proxies / Proxy Type / Proxy Authentication:
@@ -74,17 +74,17 @@ If a proxy requires username:password authentication, append the username and th
 
 A few examples:
 
-    `127.0.0.1:80`
+    127.0.0.1:80`
   
-    `127.0.0.1:6400:http`
+    127.0.0.1:6400:http
   
-    `127.0.0.1:6500:socks5`
+    127.0.0.1:6500:socks5
   
-    `127.0.0.1:6600:socks5h`
+    127.0.0.1:6600:socks5h
   
-    `127.0.0.1:120:http:myname:secret_pass`
+    127.0.0.1:120:http:myname:secret_pass
   
-    `127.0.0.1:120:socks5:2nd_name:2nd_secret`
+    127.0.0.1:120:socks5:2nd_name:2nd_secret
 
 
 #### Advanced Configuration
