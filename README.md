@@ -9,6 +9,26 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
 ![Instagram Bruter example](https://github.com/Castorps/Instagram-Bruter/blob/master/images/example.png)
 
 
+### Features:
+  - Cross-Platform
+  - Multi-threaded (you can pick the number of bots)
+  - Uses a combolist (attack multiple accounts at once)
+  - Load combolist from a specified line (resume session)
+  - Scrapes proxies automatically (also during the attack)
+  - Deletes proxies that are failing too often automatically
+  - Rotates proxies to avoid blocking
+
+
+### Usage:
+You have to start [bruteforce.py](https://github.com/Castorps/Instagram-Bruter/blob/master/bruteforce.py) with two parameters:
+  - `combo_file`: The path to the combolist you want to use.
+  - `bots`: The number of bots to use.
+
+Like this:
+
+    python bruteforce.py "<combo_file>" <bots>
+
+
 ### Requirements:
   - Python 3.x.x
 
@@ -25,28 +45,6 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
     python -m pip install requests
 
     python -m pip install requests[socks]
-
-### Features:
-  - Cross-Platform
-  - Multi-threaded (you can pick the number of bots)
-  - Uses a combolist (attack multiple accounts at once)
-  - Load combolist from a specified line (resume session)
-  - Scrapes proxies automatically (also during the attack)
-  - Deletes proxies that are failing too often automatically
-  - Rotates proxies to avoid blocking
-  
-  
-### Usage:
-
-You have to start [bruteforce.py](https://github.com/Castorps/Instagram-Bruter/blob/master/bruteforce.py) with two parameters:
-
-  - `combo_file`: The path to the combolist you want to use.
-
-  - `bots`: The number of bots to use.
-    
-Like this:
-
-    python bruteforce.py "<combo_file>" <bots>
 
 
 ### Configuration: Combolist
@@ -96,4 +94,3 @@ A few examples:
 
 
 #### ~~~ Inspired by [Pure-L0G1C's Instagram Bruteforce Tool](https://github.com/Pure-L0G1C/Instagram) ~~~
-
