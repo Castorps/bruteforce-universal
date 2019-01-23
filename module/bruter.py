@@ -8,20 +8,10 @@ from time import sleep
 
 class Bruter:
 
-    def __init__(self, input_max_threads, combo_queue, proxy_manager):
-        
-        if 'linux' in platform or 'darwin' in platform:
-            path_hits_file = path[0] + '/hits.txt'
-            
-        elif 'win' in platform:
-            path_hits_file = path[0] + '\\hits.txt'
-        
-        else:
-            path_hits_file = path[0] + '/hits.txt'
-        
+    def __init__(self, input_max_threads, combo_queue, proxy_manager, path_hits_file):   
         self.combo_queue = combo_queue
         self.proxy_manager = proxy_manager
-        self.hits_file = open(path_hits_file, 'a+', encoding='utf-8', errors='ignore')
+        self.path_hits_file = path_hits_file
         self.bots = []
         self.last_combo = ['', '']
         self.max_threads = input_max_threads
@@ -45,7 +35,9 @@ class Bruter:
                 self.last_combo = combo
 
                 if response_success in response.text:
-                    self.hits_file.write(combo[0] + ':' + combo[1] + '\n')
+                    hits_file = open(self.path_hits_file, 'a+', encoding='utf-8', errors='ignore')
+                    hits_file.write(combo[0] + ':' + combo[1] + '\n')
+                    hits_file.close()
                     self.hits += 1
 
             else:
@@ -75,8 +67,6 @@ class Bruter:
         self.isAlive = False
         for bot in self.bots:
             bot.join()
-
-        self.hits_file.close()
 
     def start(self):
         self.isAlive = True
