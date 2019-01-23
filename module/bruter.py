@@ -1,14 +1,13 @@
 from .browser import Browser
 from .const import (response_success, response_error)
 
-from sys import (path, platform)
 from threading import Thread
 from time import sleep
 
 
 class Bruter:
 
-    def __init__(self, input_max_threads, combo_queue, proxy_manager, path_hits_file):   
+    def __init__(self, input_max_threads, combo_queue, proxy_manager, path_hits_file):
         self.combo_queue = combo_queue
         self.proxy_manager = proxy_manager
         self.path_hits_file = path_hits_file
