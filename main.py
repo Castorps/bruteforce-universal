@@ -130,7 +130,7 @@ def main(screen):
                 time_output = time_now
                 output = ('Time: ' + time_running_format + '\n'
                           'Hits: ' + str(engine.hits) + '\n'
-                          'Combolist Position: ' + str(engine.tested + engine.retries + combos_start) + '\n')
+                          'Combolist Position: ' + str(engine.tested + combos_start) + '\n')
 
                 output_file = open(path_output_file, 'w', encoding='utf-8', errors='ignore')
                 output_file.write(output)
