@@ -84,7 +84,7 @@ A few examples:
   
     `127.0.0.1:120:http:myname:secret_pass`
   
-    `127.0.0.1:120:socks5:2nd_proxy:2nd_secret`
+    `127.0.0.1:120:socks5:2nd_name:2nd_secret`
 
 
 #### Advanced Configuration
