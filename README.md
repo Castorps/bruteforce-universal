@@ -28,6 +28,7 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
 
 
 ### Features:
+  - Cross Platform
   - Multi-threaded (you can pick the number of bots)
   - Uses a combolist (attack multiple accounts at once)
   - Load combolist from a specified line (resume session)
