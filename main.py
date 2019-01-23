@@ -146,7 +146,13 @@ def main(screen):
             sleep(0.25)
 
     except KeyboardInterrupt:
-        pass
+        output = ('Time: ' + time_running_format + '\n'
+                  'Hits: ' + str(engine.hits) + '\n'
+                  'Combolist Position: ' + str(engine.tested + combos_start) + '\n')
+
+        output_file = open(path_output_file, 'w', encoding='utf-8', errors='ignore')
+        output_file.write(output)
+        output_file.close()
 
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 9 + 'Stopping', 2, 1)
