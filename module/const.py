@@ -8,7 +8,7 @@ combos_start = 0  # combos from this point forward will be loaded into memory
 proxies_minimum = 0  # if proxy list is smaller or equal, scrape proxies
 proxy_ban_time = 30  # time to wait after proxy ban to use it again
 proxy_minimum_attempts = 4  # minimum attempts proxy has to do before calculating success ratio
-proxy_success_ratio = 1  # = tested / retries
+proxy_success_ratio = 1  # = tested / retries, proxy gets deleted if value is smaller
 proxy_timeout = 10  # time to wait before using proxy again
 
 # Browser
