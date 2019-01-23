@@ -5,7 +5,7 @@ combos_max = 1000000  # maximum number of combos to load into memory
 combos_start = 0  # combos from this point forward will be loaded into memory
 
 # Proxy Manager
-proxies_minimum = 250  # if proxy list is smaller or equal, scrape proxies
+proxies_minimum = 0  # if proxy list is smaller or equal, scrape proxies
 proxy_ban_time = 30  # time to wait after proxy ban to use it again
 proxy_minimum_attempts = 4  # minimum attempts proxy has to do before calculating success ratio
 proxy_success_ratio = 1  # = tested / retries
