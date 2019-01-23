@@ -115,8 +115,8 @@ def main(screen):
             screen.print_at('Attempts/min:' + ' ' * 10 + str(attempts_per_min), 2, 16)
             screen.refresh()
 
-            if (time() - time_checked) >= 60:
-                time_checked = time()
+            if (time_now - time_checked) >= 60:
+                time_checked = time_now
                 tested_last_min = engine.tested - tested_before_last_min
                 attempts_last_min = (engine.tested + engine.retries) - attempts_before_last_min
                 tested_per_min_list.append(tested_last_min)
