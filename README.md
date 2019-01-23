@@ -20,11 +20,11 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
  
  Install these using Python's pip:
  
-  `python -m pip install asciimatics`
+    `python -m pip install asciimatics`
 
-  `python -m pip install requests`
-   
-  `python -m pip install requests[socks]`
+    `python -m pip install requests`
+
+    `python -m pip install requests[socks]`
 
 
 ### Usage:
@@ -88,7 +88,7 @@ A few examples:
 
 
 #### Advanced Configuration
-If you want to change other variables (like the connection timeout and how often a proxy may be used for authentication attempts), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
+If you want to change other variables (like the connection timeout and how long to wait before reusing a proxy again), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
 
 
 ### Notes:
