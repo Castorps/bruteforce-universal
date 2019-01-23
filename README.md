@@ -70,7 +70,7 @@ If you want to use your own proxies you have to harvest them using [Proxy Scrape
 
 To add a proxy type (supported types: `http`, `socks5`, `socks5h`) append a colon and a type: `ip:port:type`
 
-If a proxy requires username:password authentication, append a colon, the username, a colon and the password: `ip:port:username:password`
+If a proxy requires username:password authentication, append the username and the password with a colon as separator: `ip:port:username:password`
 
 A few examples:
 
