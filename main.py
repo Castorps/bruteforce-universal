@@ -6,6 +6,7 @@ from module.proxy_scraper import ProxyScraper
 import argparse
 from asciimatics.screen import Screen
 from collections import deque
+from sys import (path, platform)
 from threading import Thread
 from time import (sleep, time)
 
@@ -34,7 +35,7 @@ def create_combo_queue(input_combo_file):
 
 def screen_clear(screen, lines):
     for i in range(lines):
-        screen.print_at(' ' * 80, 0, i)
+        screen.print_at(' ' * 80, 0, i+1)
 
     
 def main(screen):
@@ -45,11 +46,23 @@ def main(screen):
     parser.add_argument('bots', help='How many bots you want to use', type=int)
     args = parser.parse_args()
     
+    if 'linux' in platform or 'darwin' in platform:
+        path_separator = '/'
+            
+    elif 'win' in platform:
+        path_separator = '\\'
+        
+    else:
+        path_separator = '/'
+    
+    path_output_file = path[0] + path_separator + 'output.txt'
+    path_hits_file = path[0] + path_separator + 'hits.txt'
+    
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Creating Combo Queue', 2, 1)
     screen.refresh()
     combo_queue = create_combo_queue(args.combo_file)
     
-    screen_clear(screen, 2)
+    screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
     screen.refresh()
     proxy_scraper = ProxyScraper(args.proxy_file)
@@ -61,10 +74,10 @@ def main(screen):
     proxy_manager_thread.daemon = True
     proxy_manager_thread.start()
 
-    screen_clear(screen, 2)
+    screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Starting Bots', 2, 1)
     screen.refresh()
-    engine = Bruter(args.bots, combo_queue, proxy_manager)
+    engine = Bruter(args.bots, combo_queue, proxy_manager, path_hits_file)
     engine.start()
 
     tested_per_min = 0
@@ -76,26 +89,30 @@ def main(screen):
 
     time_start = time()
     time_checked = time_start
+    time_output = time_start
 
     try:
         while len(combo_queue):
-            time_running = time() - time_start
+            time_now = time()
+            time_running = time_now - time_start
             hours, rem = divmod(time_running, 3600)
             minutes, seconds = divmod(rem, 60)
             time_running_format = '{:0>2}:{:0>2}:{:05.2f}'.format(int(hours), int(minutes), seconds)
 
-            screen_clear(screen, 13)
-            screen.print_at('Bruter Status:' + ' ' * 2 + 'Running', 2, 1)
-            screen.print_at('Time:' + ' ' * 11 + time_running_format, 2, 3)
-            screen.print_at('Bots:' + ' ' * 11 + str(len(engine.bots)), 2, 4)
-            screen.print_at('Hits:' + ' ' * 11 + str(engine.hits), 2, 5)
-            screen.print_at('Combos:' + ' ' * 9 + str(len(combo_queue)), 2, 6)
-            screen.print_at('Proxies:' + ' ' * 8 + str(proxy_manager.size), 2, 7)
-            screen.print_at('Last Combo:' + ' ' * 5 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 8)
-            screen.print_at('Tested:' + ' ' * 9 + str(engine.tested), 2, 10)
-            screen.print_at('Attempts:' + ' ' * 7 + str(engine.tested + engine.retries), 2, 11)
-            screen.print_at('Tested/min:' + ' ' * 5 + str(tested_per_min), 2, 12)
-            screen.print_at('Attempts/min:' + ' ' * 3 + str(attempts_per_min), 2, 13)
+            screen_clear(screen, 16)
+            screen.print_at('Bruter Status:' + ' ' * 9 + 'Running', 2, 1)
+            screen.print_at('Time:' + ' ' * 18 + time_running_format, 2, 3)
+            screen.print_at('Bots:' + ' ' * 18 + str(len(engine.bots)), 2, 4)
+            screen.print_at('Hits:' + ' ' * 18 + str(engine.hits), 2, 5)
+            screen.print_at('Combolist:' + ' ' * 13 + args.combo_file, 2, 7)
+            screen.print_at('Combolist Position:' + ' ' * 4 + str(engine.tested + engine.retries + combos_start), 2, 8)
+            screen.print_at('Loaded Combos:' + ' ' * 9 + str(len(combo_queue)), 2, 9)
+            screen.print_at('Loaded Proxies:' + ' ' * 6 + str(proxy_manager.size), 2, 10)
+            screen.print_at('Last Combo:' + ' ' * 12 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 11)
+            screen.print_at('Tested:' + ' ' * 16 + str(engine.tested), 2, 13)
+            screen.print_at('Attempts:' + ' ' * 14 + str(engine.tested + engine.retries), 2, 14)
+            screen.print_at('Tested/min:' + ' ' * 12 + str(tested_per_min), 2, 15)
+            screen.print_at('Attempts/min:' + ' ' * 10 + str(attempts_per_min), 2, 16)
             screen.refresh()
 
             if (time() - time_checked) >= 60:
@@ -109,8 +126,18 @@ def main(screen):
                 tested_before_last_min = engine.tested
                 attempts_before_last_min = (engine.tested + engine.retries)
 
+            if (time_now - time_output) >= 5:
+                time_output = time_now
+                output = ('Time: ' + time_running_format + '\n'
+                          'Hits: ' + str(engine.hits) + '\n'
+                          'Combolist Position: ' + str(engine.tested + engine.retries + combos_start) + '\n')
+
+                output_file = open(path_output_file, 'w', encoding='utf-8', errors='ignore')
+                output_file.write(output)
+                output_file.close()
+                
             if proxy_manager.size < proxies_minimum:
-                screen_clear(screen, 2)
+                screen_clear(screen, 1)
                 screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
                 screen.refresh()
                 proxy_scraper.scrape()
@@ -118,10 +145,10 @@ def main(screen):
 
             sleep(0.25)
             
-        raise(KeyboardInterrupt)
+        raise(KeyboardInterrupt)  # to stop script when done
 
     except KeyboardInterrupt:
-        screen_clear(screen, 2)
+        screen_clear(screen, 1)
         screen.print_at('Bruter Status:' + ' ' * 2 + 'Stopping', 2, 1)
         screen.refresh()
         engine.stop()
