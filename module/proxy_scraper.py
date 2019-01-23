@@ -20,7 +20,7 @@ def scrape_table_proxies(url):
     
     if source:
         re_proxy = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,6}')
-        source = source.replace('&lt;', '<').replace('&gt;', '>').replace('</td><td>', ':')
+        source = source.replace('</td><td>', ':')
         proxies = re_proxy.findall(source)
 
     return proxies
