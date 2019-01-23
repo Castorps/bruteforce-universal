@@ -105,7 +105,7 @@ def main(screen):
             screen.print_at('Bots:' + ' ' * 18 + str(len(engine.bots)), 2, 4)
             screen.print_at('Hits:' + ' ' * 18 + str(engine.hits), 2, 5)
             screen.print_at('Combolist:' + ' ' * 13 + args.combo_file, 2, 7)
-            screen.print_at('Combolist Position:' + ' ' * 4 + str(engine.tested + engine.retries + combos_start), 2, 8)
+            screen.print_at('Combolist Position:' + ' ' * 4 + str(engine.tested + combos_start), 2, 8)
             screen.print_at('Loaded Combos:' + ' ' * 9 + str(len(combo_queue)), 2, 9)
             screen.print_at('Loaded Proxies:' + ' ' * 6 + str(proxy_manager.size), 2, 10)
             screen.print_at('Last Combo:' + ' ' * 12 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 11)
