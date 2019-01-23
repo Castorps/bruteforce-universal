@@ -108,7 +108,7 @@ def main(screen):
             screen.print_at('Combolist Position:' + ' ' * 4 + str(engine.tested + combos_start), 2, 8)
             screen.print_at('Loaded Combos:' + ' ' * 9 + str(len(combo_queue)), 2, 9)
             screen.print_at('Loaded Proxies:' + ' ' * 6 + str(proxy_manager.size), 2, 10)
-            screen.print_at('Last Combo:' + ' ' * 12 + str(engine.last_combo[0]) + ':' + str(engine.last_combo[1]), 2, 11)
+            screen.print_at('Last Combo:' + ' ' * 12 + engine.last_combo[0] + ':' + engine.last_combo[1], 2, 11)
             screen.print_at('Tested:' + ' ' * 16 + str(engine.tested), 2, 13)
             screen.print_at('Attempts:' + ' ' * 14 + str(engine.tested + engine.retries), 2, 14)
             screen.print_at('Tested/min:' + ' ' * 12 + str(tested_per_min), 2, 15)
