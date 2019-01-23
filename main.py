@@ -135,7 +135,7 @@ def main(screen):
                 output_file.write(output)
                 output_file.close()
 
-            if proxy_manager.size < proxies_minimum:
+            if proxy_manager.size <= proxies_minimum:
                 screen_clear(screen, 1)
                 screen.print_at('Bruter Status:' + ' ' * 9 + 'Getting Proxies', 2, 1)
                 screen.refresh()
