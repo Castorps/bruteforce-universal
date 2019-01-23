@@ -9,11 +9,11 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
 ![Instagram Bruter example](https://github.com/Castorps/Instagram-Bruter/blob/master/images/example.png)
 
 
-### Requirements:
+## Requirements:
   - Python 3.x.x
 
 
-### Dependencies:
+## Dependencies:
   - asciimatics
   - requests
   - requests[socks]
@@ -27,7 +27,7 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
   `python -m pip install requests[socks]`
 
 
-### Usage:
+## Usage:
 
 You have to start [bruteforce.py](https://github.com/Castorps/Instagram-Bruter/blob/master/bruteforce.py) with two parameters:
 
@@ -40,18 +40,18 @@ Like this:
     `python bruteforce.py "<combo_file>" <bots>`
 
 
-#### Example - Windows:
+### Example - Windows:
 
     `python bruteforce.py "C:\user\myuser\combolist.txt" 250`
 
 
-#### Example - Linux:
+### Example - Linux:
 
     `python ./bruteforce.py "/home/myuser/combolist" 250`
 
 
-### Configuration:
-#### Combolist:
+## Configuration:
+### Combolist:
 The combolist is a text file, each line contains a username and a password in `username:password` format.
 
 A few examples:
@@ -65,7 +65,7 @@ A few examples:
     `alex:987654321`
 
 
-#### Personal Proxies / Proxy Type / Proxy Authentication:
+### Personal Proxies / Proxy Type / Proxy Authentication:
 If you want to use your own proxies you have to harvest them using [Proxy Scraper's `scrape()` function](https://github.com/Castorps/Instagram-Bruter/blob/aebf33ea970156b6441c1eb321b839565d463116/module/proxy_scraper.py#L34). The proxies have to be passed on in `ip:port` format.
 
 To add a proxy type (supported types: `http`, `socks5`, `socks5h`) append a colon and a type: `ip:port:type`
@@ -87,11 +87,11 @@ A few examples:
     `127.0.0.1:120:socks5:2nd_name:2nd_secret`
 
 
-#### Advanced Configuration
+### Advanced Configuration
 If you want to change other variables (like the connection timeout and how often a proxy may be used for authentication attempts), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
 
 
-### Notes:
+## Notes:
   - There are other tools to generate combolists (see "combolist maker").
   
   - It shouldn't be too hard to use this tool for other websites, if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately.
