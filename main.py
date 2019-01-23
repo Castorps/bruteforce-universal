@@ -58,12 +58,12 @@ def main(screen):
     path_output_file = path[0] + path_separator + 'output.txt'
     path_hits_file = path[0] + path_separator + 'hits.txt'
     
-    screen.print_at('Bruter Status:' + ' ' * 2 + 'Creating Combo Queue', 2, 1)
+    screen.print_at('Bruter Status:' + ' ' * 9 + 'Creating Combo Queue', 2, 1)
     screen.refresh()
     combo_queue = create_combo_queue(args.combo_file)
     
     screen_clear(screen, 1)
-    screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
+    screen.print_at('Bruter Status:' + ' ' * 9 + 'Getting Proxies', 2, 1)
     screen.refresh()
     proxy_scraper = ProxyScraper(args.proxy_file)
     proxy_scraper.scrape()
@@ -75,7 +75,7 @@ def main(screen):
     proxy_manager_thread.start()
 
     screen_clear(screen, 1)
-    screen.print_at('Bruter Status:' + ' ' * 2 + 'Starting Bots', 2, 1)
+    screen.print_at('Bruter Status:' + ' ' * 9 + 'Starting Bots', 2, 1)
     screen.refresh()
     engine = Bruter(args.bots, combo_queue, proxy_manager, path_hits_file)
     engine.start()
@@ -138,7 +138,7 @@ def main(screen):
                 
             if proxy_manager.size < proxies_minimum:
                 screen_clear(screen, 1)
-                screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
+                screen.print_at('Bruter Status:' + ' ' * 9 + 'Getting Proxies', 2, 1)
                 screen.refresh()
                 proxy_scraper.scrape()
                 proxy_manager.put(proxy_scraper.get())
@@ -149,7 +149,7 @@ def main(screen):
 
     except KeyboardInterrupt:
         screen_clear(screen, 1)
-        screen.print_at('Bruter Status:' + ' ' * 2 + 'Stopping', 2, 1)
+        screen.print_at('Bruter Status:' + ' ' * 9 + 'Stopping', 2, 1)
         screen.refresh()
         engine.stop()
         proxy_manager.stop()
