@@ -23,7 +23,7 @@ def create_combo_queue(input_combo_file):
                 if combo_count < combos_start:
                     continue
                 
-                if combo_count > combos_max:
+                if (combo_count - combos_start) > combos_max:
                     return queue
                 
                 combo = combo.replace('\n', '').replace('\r', '').replace('\t', '')
