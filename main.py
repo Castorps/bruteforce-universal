@@ -144,16 +144,16 @@ def main(screen):
                 proxy_manager.put(proxy_scraper.get())
 
             sleep(0.25)
-            
-        raise(KeyboardInterrupt)  # to stop script when done
 
     except KeyboardInterrupt:
-        screen_clear(screen, 1)
-        screen.print_at('Bruter Status:' + ' ' * 9 + 'Stopping', 2, 1)
-        screen.refresh()
-        engine.stop()
-        proxy_manager.stop()
-        proxy_manager_thread.join()
+        pass
+
+    screen_clear(screen, 1)
+    screen.print_at('Bruter Status:' + ' ' * 9 + 'Stopping', 2, 1)
+    screen.refresh()
+    engine.stop()
+    proxy_manager.stop()
+    proxy_manager_thread.join()
 
     exit()
 
