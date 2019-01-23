@@ -62,7 +62,7 @@ A few examples:
 
 
 #### Advanced Configuration: Constants
-If you want to change other variables (like the connection timeout and how long to wait before reusing a proxy again), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
+If you want to change other variables (like the connection timeout and how long to wait before reusing a proxy), take a look at the [constant file](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py).
 
 
 #### Advanced Configuration: Personal Proxies / Proxy Type / Proxy Authentication
