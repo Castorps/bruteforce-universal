@@ -26,7 +26,6 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
 
     python -m pip install requests[socks]
 
-
 ### Features:
   - Cross-Platform
   - Multi-threaded (you can pick the number of bots)
