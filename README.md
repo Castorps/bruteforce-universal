@@ -4,7 +4,7 @@
 
 ![Version 1.7](https://img.shields.io/badge/Version-v1.7-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
 
-This script bruteforces Instagram accounts using a combolist. You have to provide the path to a combolist and how many bots you would like to use. The script provides an overview on it's speed and how many working login credentials it has found. To view found credentials, look at hits.txt in the script's directory.
+This script bruteforces Instagram accounts using a combolist. You have to provide the path to a combolist and how many bots you would like to use. To view found credentials, look at hits.txt in the script's directory.
 
 ![Instagram Bruter example](https://github.com/Castorps/Instagram-Bruter/blob/master/images/example.png)
 
