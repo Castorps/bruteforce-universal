@@ -2,7 +2,6 @@
 
 # Main Script
 combos_max = 1000000  # maximum number of combos to load into memory
-combos_start = 0  # combos from this point forward will be loaded into memory
 
 # Proxy Manager
 proxies_minimum = 0  # if proxy list is smaller or equal, scrape proxies
