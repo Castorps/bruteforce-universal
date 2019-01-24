@@ -14,14 +14,21 @@ def get_sourcecode(url):
         return None
 
     
-def scrape_table_proxies(url):
+def scrape_proxies(url):
     proxies = []
+    proxies_reverse = []
     source = get_sourcecode(url)
     
     if source:
         re_proxy = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,6}')
-        source = source.replace('</td><td>', ':')
+        re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+        source = source.replace('&lt;', '<').replace('&gt;', '>').replace('</td><td>', ':').replace('</a>', ':').replace('::', ':')
         proxies = re_proxy.findall(source)
+        proxies_reverse = re_proxy_reverse.findall(source)
+        
+        for proxy in proxies_reverse:
+            proxy_parts = proxy.split(':')
+            proxies += [proxy_parts[1] + ':' + proxy_parts[0]]
 
     return proxies
 
@@ -34,10 +41,10 @@ class ProxyScraper:
     def scrape(self):
         proxies = []
         
-        sslproxies_org = scrape_table_proxies('https://www.sslproxies.org/')
-        freeproxylist_net = scrape_table_proxies('https://free-proxy-list.net/')
-        freeproxylist_net_anon = scrape_table_proxies('https://free-proxy-list.net/anonymous-proxy.html')
-        spys_me = scrape_table_proxies('http://spys.me/proxy.txt')
+        sslproxies_org = scrape_proxies('https://www.sslproxies.org/')
+        freeproxylist_net = scrape_proxies('https://free-proxy-list.net/')
+        freeproxylist_net_anon = scrape_proxies('https://free-proxy-list.net/anonymous-proxy.html')
+        spys_me = scrape_proxies('http://spys.me/proxy.txt')
 
         proxies += (sslproxies_org
                    + freeproxylist_net
