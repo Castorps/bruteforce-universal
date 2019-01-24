@@ -3,10 +3,10 @@ from module.const import (combos_max, proxies_minimum)
 from module.proxy_manager import ProxyManager
 from module.proxy_scraper import ProxyScraper
 
-import argparse
-import hashlib
+from argparse import ArgumentParser
 from asciimatics.screen import Screen
 from collections import deque
+from hashlib import md5
 from sys import (path, platform)
 from threading import Thread
 from time import (sleep, time)
@@ -35,7 +35,7 @@ def create_combo_queue(input_combo_file, combos_start):
 
 
 def get_md5_hash(file_name):
-    hash_md5 = hashlib.md5()
+    hash_md5 = md5()
     
     with open(file_name, 'rb') as f:
         for chunk in iter(lambda: f.read(4096), b''):
@@ -61,7 +61,7 @@ def sessions_get(path_sessions_file):
     return sessions               
 
 
-def sessions_add(path_sessions_file, file_hash, combos_position):
+def sessions_update(path_sessions_file, file_hash, combos_position):
     sessions = sessions_get(path_sessions_file)
     sessions[file_hash] = combos_position
     sessions_file = open(path_sessions_file, 'w+', encoding='utf-8', errors='ignore')
@@ -78,11 +78,12 @@ def screen_clear(screen, lines):
 
 
 def main(screen):
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
     parser.add_argument('combo_file', help='The path to your combolist', type=str)
     parser.add_argument('bots', help='How many bots you want to use', type=int)
     args = parser.parse_args()
-    
+
+    # generate file paths
     if 'linux' in platform or 'darwin' in platform:
         path_separator = '/'
             
@@ -92,10 +93,11 @@ def main(screen):
     else:
         path_separator = '/'
 
-    path_sessions_file = path[0] + path_separator + 'sessions'
-    path_output_file = path[0] + path_separator + 'output.txt'
     path_hits_file = path[0] + path_separator + 'hits.txt'
+    path_proxy_sources_file = path[0] + path_separator + 'proxy_sources'
+    path_sessions_file = path[0] + path_separator + 'sessions'
 
+    # get session for combolist
     combo_file_hash = get_md5_hash(args.combo_file)
     sessions = sessions_get(path_sessions_file)
 
@@ -104,23 +106,28 @@ def main(screen):
 
     else:
         combos_start = 0
-    
+
+    # create combo queue
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Creating Combo Queue', 2, 1)
     screen.refresh()
     combo_queue = create_combo_queue(args.combo_file, combos_start)
-    
+
+    # initialize proxy scraper and scrape proxies
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
     screen.refresh()
-    proxy_scraper = ProxyScraper()
+    proxy_scraper = ProxyScraper(path_proxy_sources_file)
     proxy_scraper.scrape()
 
+    # initialize proxy manager and feed it scraper's proxies
+    # start proxy maintaining thread
     proxy_manager = ProxyManager()
     proxy_manager.put(proxy_scraper.get())
     proxy_manager_thread = Thread(target=proxy_manager.start)
     proxy_manager_thread.daemon = True
     proxy_manager_thread.start()
 
+    # initialize engine
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Starting Bots', 2, 1)
     screen.refresh()
@@ -136,7 +143,6 @@ def main(screen):
 
     time_start = time()
     time_checked = time_start
-    time_output = time_start
 
     try:
         while len(combo_queue):
@@ -162,6 +168,7 @@ def main(screen):
             screen.print_at('Attempts/min:' + ' ' * 10 + str(attempts_per_min), 2, 16)
             screen.refresh()
 
+            # update tested/attempts /min
             if (time_now - time_checked) >= 60:
                 time_checked = time_now
                 tested_last_min = engine.tested - tested_before_last_min
@@ -173,6 +180,7 @@ def main(screen):
                 tested_before_last_min = engine.tested
                 attempts_before_last_min = (engine.tested + engine.retries)
 
+            # fetch new proxies if there are too few left
             if proxy_manager.size <= proxies_minimum:
                 screen_clear(screen, 1)
                 screen.print_at('Bruter Status:' + ' ' * 9 + 'Getting Proxies', 2, 1)
@@ -185,9 +193,11 @@ def main(screen):
     except KeyboardInterrupt:
         pass
 
+    # update session with new combo position
     combos_position = (combos_start + engine.tested)
-    sessions_add(path_sessions_file, combo_file_hash, combos_position)
+    sessions_update(path_sessions_file, combo_file_hash, combos_position)
 
+    # stop script
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 9 + 'Stopping', 2, 1)
     screen.refresh()
