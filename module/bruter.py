@@ -40,7 +40,7 @@ class Bruter:
                         hits_file.close()
                         self.hits += 1
                 else:
-                    self.proxy_manager.disable(proxy, retries=True)
+                    self.proxy_manager.disable(proxy)
                     self.combo_queue.appendleft(combo)
                     self.retries += 1
 
