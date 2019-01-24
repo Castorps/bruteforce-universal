@@ -1,6 +1,8 @@
 import re
 import ssl
+import threading
 import urllib.request
+from time import sleep
 
 
 def get_sourcecode(url):
@@ -9,49 +11,56 @@ def get_sourcecode(url):
         request = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         request_source = urllib.request.urlopen(request).read()
         return str(request_source)
-    
+
     except:
         return None
-
-    
-def scrape_proxies(url):
-    proxies = []
-    proxies_reverse = []
-    source = get_sourcecode(url)
-    
-    if source:
-        re_proxy = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,6}')
-        re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
-        source = source.replace('&lt;', '<').replace('&gt;', '>').replace('</td><td>', ':').replace('</a>', ':').replace('::', ':')
-        proxies = re_proxy.findall(source)
-        proxies_reverse = re_proxy_reverse.findall(source)
-        
-        for proxy in proxies_reverse:
-            proxy_parts = proxy.split(':')
-            proxies += [proxy_parts[1] + ':' + proxy_parts[0]]
-
-    return proxies
 
 
 class ProxyScraper:
 
-    def __init__(self):
+    def __init__(self, path_proxy_sources_file):
         self.proxies = set()
-        
+        self.path_proxy_sources_file = path_proxy_sources_file
+
+    def scrape_proxies(self, url):
+        source = get_sourcecode(url)
+
+        if source:
+            re_proxy = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,6}')
+            re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+            replacements = {'&lt;': '<',
+                            '&gt;': '>',
+                            '</td><td>': ':',
+                            '</a>': ':',
+                            '::': ':',
+                            ' ': ''}
+
+            for key in replacements:
+                source = source.replace(key, replacements[key])
+
+            proxies = re_proxy.findall(source)
+            proxies_reverse = re_proxy_reverse.findall(source)
+            self.proxies.update(proxies)
+
+            for proxy in proxies_reverse:
+                proxy_parts = proxy.split(':')
+                self.proxies.add(proxy_parts[1] + ':' + proxy_parts[0])
+
     def scrape(self):
-        proxies = []
-        
-        sslproxies_org = scrape_proxies('https://www.sslproxies.org/')
-        freeproxylist_net = scrape_proxies('https://free-proxy-list.net/')
-        freeproxylist_net_anon = scrape_proxies('https://free-proxy-list.net/anonymous-proxy.html')
-        spys_me = scrape_proxies('http://spys.me/proxy.txt')
+        proxy_sources = []
 
-        proxies += (sslproxies_org
-                   + freeproxylist_net
-                   + freeproxylist_net_anon
-                   + spys_me)
+        with open(self.path_proxy_sources_file, 'r', encoding='utf-8', errors='ignore') as proxy_sources_file:
+            for line in proxy_sources_file:
+                if '://' in line:
+                    proxy_source = line.replace('\n', '').replace('\r', '').replace('\t', '').replace(' ', '')
+                    proxy_sources.append(proxy_source)
 
-        self.proxies = set(proxies)
+        for proxy_source in proxy_sources:
+            while threading.active_count() > 10:
+                sleep(0.5)
+
+            t = threading.Thread(target=self.scrape_proxies, args=[proxy_source])
+            t.start()
 
     def get(self):
         proxies = self.proxies
