@@ -20,13 +20,13 @@ def create_combo_queue(input_combo_file, combos_start):
         for line in combo_file:
             if ':' in line:
                 combo_count += 1
-                
+
                 if combo_count < combos_start:
                     continue
-                
+
                 if (combo_count - combos_start) > combos_max:
                     return queue
-                
+
                 combo = line.replace('\n', '').replace('\r', '').replace('\t', '')
                 combo_parts = combo.split(':')
                 queue.append([combo_parts[0], combo_parts[1]])
@@ -34,19 +34,19 @@ def create_combo_queue(input_combo_file, combos_start):
     return queue
 
 
-def get_md5_hash(file_name):
+def get_md5_hash(file_path):
     hash_md5 = md5()
-    
-    with open(file_name, 'rb') as f:
+
+    with open(file_path, 'rb') as f:
         for chunk in iter(lambda: f.read(4096), b''):
             hash_md5.update(chunk)
-            
+
     return hash_md5.hexdigest()
 
 
 def sessions_get(path_sessions_file):
     sessions = {}
-    
+
     try:
         with open(path_sessions_file, 'r', encoding='utf-8', errors='ignore') as sessions_file:
             for line in sessions_file:
@@ -54,10 +54,10 @@ def sessions_get(path_sessions_file):
                     session = line.replace('\n', '').replace('\r', '').replace('\t', '')
                     session_parts = session.split(':')
                     sessions[session_parts[0]] = int(session_parts[1])
-                    
+
     except:
         pass
-
+    
     return sessions               
 
 
@@ -65,7 +65,7 @@ def sessions_update(path_sessions_file, file_hash, combos_position):
     sessions = sessions_get(path_sessions_file)
     sessions[file_hash] = combos_position
     sessions_file = open(path_sessions_file, 'w+', encoding='utf-8', errors='ignore')
-    
+
     for key in sessions:
         sessions_file.write(key + ':' + str(sessions[key]) + '\n')
 
@@ -86,10 +86,10 @@ def main(screen):
     # generate file paths
     if 'linux' in platform or 'darwin' in platform:
         path_separator = '/'
-            
+
     elif 'win' in platform:
         path_separator = '\\'
-        
+
     else:
         path_separator = '/'
 
@@ -204,7 +204,7 @@ def main(screen):
     engine.stop()
     proxy_manager.stop()
     proxy_manager_thread.join()
-    
+
     exit()
 
 
