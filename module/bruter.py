@@ -1,6 +1,5 @@
 from .browser import Browser
 from .const import (response_success, response_error)
-
 from threading import Thread
 from time import sleep
 
