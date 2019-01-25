@@ -14,7 +14,7 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
   - Multi-threaded (you can pick the number of bots)
   - Uses a combolist (attack multiple accounts at once)
   - Saves and resumes sessions
-  - Scrapes proxies automatically (also during the attack)
+  - Scrapes proxies automatically (40k+, also during the attack)
   - Deletes proxies that are producing too many errors automatically
   - Rotates proxies to avoid blocking
 
