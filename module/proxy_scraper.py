@@ -19,7 +19,7 @@ def get_sourcecode(url):
 class ProxyScraper:
 
     def __init__(self, path_proxy_sources_file):
-        self.proxies = set()
+        self.proxies = set()  # ([ip:port, ...])
         self.path_proxy_sources_file = path_proxy_sources_file
 
     def scrape_proxies(self, url):
@@ -35,6 +35,7 @@ class ProxyScraper:
                             '::': ':',
                             ' ': ''}
 
+            # modify sourcecode for regular expressions to be more successful
             for key in replacements:
                 source = source.replace(key, replacements[key])
 
@@ -42,19 +43,22 @@ class ProxyScraper:
             proxies_reverse = re_proxy_reverse.findall(source)
             self.proxies.update(proxies)
 
+            # turn reversed format (port:ip) into normal format (ip:port)
             for proxy in proxies_reverse:
                 proxy_parts = proxy.split(':')
                 self.proxies.add(proxy_parts[1] + ':' + proxy_parts[0])
 
     def scrape(self):
-        proxy_sources = []
+        proxy_sources = set()  # ([http://proxysite.com, ...])
 
+        # load proxy sources
         with open(self.path_proxy_sources_file, 'r', encoding='utf-8', errors='ignore') as proxy_sources_file:
             for line in proxy_sources_file:
                 if '://' in line:
                     proxy_source = line.replace('\n', '').replace('\r', '').replace('\t', '').replace(' ', '')
-                    proxy_sources.append(proxy_source)
+                    proxy_sources.add(proxy_source)
 
+        # scrape proxy sources
         for proxy_source in proxy_sources:
             while threading.active_count() > 10:
                 sleep(0.5)
