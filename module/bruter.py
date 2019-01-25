@@ -53,9 +53,10 @@ class Bruter:
 
     def bot(self):
         while self.isAlive:
+            combo = None
+            proxy = None
+            
             try:
-                combo = None
-                proxy = None
                 combo = self.combo_queue.popleft()
                 proxy = self.proxy_manager.get()
                 self.login(combo, proxy)
