@@ -2,7 +2,6 @@ from module.bruter import Bruter
 from module.const import (combos_max, proxies_minimum)
 from module.proxy_manager import ProxyManager
 from module.proxy_scraper import ProxyScraper
-
 from argparse import ArgumentParser
 from asciimatics.screen import Screen
 from collections import deque
