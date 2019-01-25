@@ -6,7 +6,7 @@
 
 This script bruteforces Instagram accounts using a combolist. You have to provide the path to a combolist and how many bots you would like to use. To view found credentials, look at hits.txt in the script's directory.
 
-![Instagram Bruter example](https://github.com/Castorps/Instagram-Bruter/blob/master/images/example.png)
+![Instagram Bruter example](https://github.com/Castorps/Instagram-Bruter/blob/master/images/example_attack.png)
 
 
 ### Features:
