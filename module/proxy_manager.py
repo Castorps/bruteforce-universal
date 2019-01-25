@@ -1,6 +1,7 @@
 from .const import (proxy_ban_time, proxy_minimum_attempts, proxy_success_ratio, proxy_timeout)
+
 from collections import deque
-from time import sleep, time
+from time import (sleep, time)
 
 
 class ProxyManager:
