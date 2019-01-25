@@ -2,7 +2,7 @@
 
 # Instagram Bruter:
 
-![Version 1.8](https://img.shields.io/badge/Version-v1.8-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
+![Version 1.9](https://img.shields.io/badge/Version-v1.9-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
 
 This script bruteforces Instagram accounts using a combolist. You have to provide the path to a combolist and how many bots you would like to use. To view found credentials, look at hits.txt in the script's directory.
 
@@ -14,7 +14,7 @@ This script bruteforces Instagram accounts using a combolist. You have to provid
   - Multi-threaded (you can pick the number of bots)
   - Uses a combolist (attack multiple accounts at once)
   - Saves and resumes sessions
-  - Scrapes proxies automatically (40k+, also during the attack)
+  - Scrapes proxies automatically (40k+ unique proxies; also during the attack)
   - Deletes proxies that are producing too many errors automatically
   - Rotates proxies to avoid blocking
 
