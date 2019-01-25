@@ -6,8 +6,8 @@ from time import (sleep, time)
 class ProxyManager:
 
     def __init__(self):
-        self.proxies = {}
-        self.proxies_ready = deque()
+        self.proxies = {}  # see below; holds all proxies and there parameters
+        self.proxies_ready = deque()  # see below; holds ready proxies and authentication parameters
         self.isAlive = True
 
     @property
@@ -15,7 +15,13 @@ class ProxyManager:
         return len(self.proxies)
 
     def put(self, proxy_list):
+        
+        # list to avoid chaning dictionary during loop
+        # if dictionary changes during loop through it, error gets raised
         proxies_keys = list(self.proxies)
+        
+        # add proxies to self.proxies
+        # parse ip, port, type, username, password
         for proxy in proxy_list:
             proxy_parts = proxy.split(':')
             proxy_ip = proxy_parts[0]
@@ -38,6 +44,7 @@ class ProxyManager:
                     proxy_password = proxy_parts[4]
 
                 proxy_type = proxy_type.lower()
+                
                 if proxy_type not in ['http', 'socks5', 'socks5h']:
                     proxy_type = 'http'
 
@@ -49,6 +56,7 @@ class ProxyManager:
                                                              None,   # disabled timestamp
                                                              False]  # ban flag
 
+                # add proxy to pool of 'ready' proxies
                 self.proxies_ready.append([proxy_ip + ':' + proxy_port,
                                            proxy_type,
                                            proxy_username,
@@ -79,9 +87,13 @@ class ProxyManager:
 
     def start(self):
         while self.isAlive:
+            
+            # list avoids changing dictionary during loop
             for proxy in list(self.proxies):
                 proxy_stats = self.proxies[proxy]
 
+
+                # calculate proxy success ratio and delete it if it's too bad
                 if (proxy_stats[3] + proxy_stats[4]) >= proxy_minimum_attempts and proxy_stats[4] > 0:
                     proxy_ratio = proxy_stats[3] / proxy_stats[4]
 
@@ -91,15 +103,18 @@ class ProxyManager:
 
                 if proxy_stats[5]:
 
+                    # banned or disabled? => set wait time
                     if proxy_stats[6]:
                         time_limit = proxy_ban_time
                     else:
                         time_limit = proxy_timeout
 
+                    # reenable proxy if wait time has passed
                     if (time() - proxy_stats[5]) >= time_limit:
                         proxy_stats[5] = None
                         proxy_stats[6] = False
 
+                        # add proxy to pool of 'ready' proxies
                         self.proxies_ready.append([proxy,
                                                    proxy_stats[0],
                                                    proxy_stats[1],
