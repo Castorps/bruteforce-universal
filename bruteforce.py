@@ -12,7 +12,7 @@ from time import (sleep, time)
 
 
 def create_combo_queue(input_combo_file, combos_start):
-    queue = deque()
+    queue = deque()  # ([username, password], ...)
     combo_count = 0
 
     with open(input_combo_file, 'r', encoding='utf-8', errors='ignore') as combo_file:
@@ -44,7 +44,7 @@ def get_md5_hash(file_path):
 
 
 def sessions_get(path_sessions_file):
-    sessions = {}
+    sessions = {}  # {combolist_hash: combolist_position, ...}
 
     try:
         with open(path_sessions_file, 'r', encoding='utf-8', errors='ignore') as sessions_file:
@@ -133,6 +133,7 @@ def main(screen):
     engine = Bruter(args.bots, combo_queue, proxy_manager, path_hits_file)
     engine.start()
 
+    # initialize performance variables
     tested_per_min = 0
     attempts_per_min = 0
     tested_before_last_min = 0
