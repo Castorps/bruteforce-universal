@@ -69,11 +69,13 @@ class Bruter:
 
     def stop(self):
         self.isAlive = False
+        
         for bot in self.bots:
             bot.join()
 
     def start(self):
         self.isAlive = True
+        
         for i in range(self.max_threads):
             t = Thread(target=self.bot)
             t.daemon = True
