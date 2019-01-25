@@ -7,8 +7,8 @@ class Browser:
     def __init__(self):
         self.session = None
         self.combo = None
-        self.cookies = {}
-        self.payload = {}
+        self.cookies = {}  # {cookie_name: cookie_value, ...}
+        self.payload = {}  # {payload_field: payload_value, ...}
         self.auth_type = None
 
     def create(self):
@@ -22,6 +22,7 @@ class Browser:
     def set_details(self, combo, proxy):
         self.combo = combo
 
+        # set authentication by look at username and password of proxy
         if not proxy[2] or not proxy[3]:
             proxy_auth = ''
         else:
@@ -37,6 +38,7 @@ class Browser:
         if len(headers_cookies):
             self.get_cookies()
 
+        # include cookie values in header (=dictionary)
         for header_name, cookie_name in headers_cookies.items():
             if cookie_name in self.cookies:
                 headers[header_name] = self.cookies[cookie_name]
