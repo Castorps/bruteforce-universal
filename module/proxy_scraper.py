@@ -60,6 +60,7 @@ class ProxyScraper:
 
     def scrape(self):
         proxy_sources = set()  # ([http://proxysite.com, ...])
+        thread_list = []
 
         # load proxy sources
         with open(self.path_proxy_sources_file, 'r', encoding='utf-8', errors='ignore') as proxy_sources_file:
