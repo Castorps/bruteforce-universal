@@ -22,7 +22,7 @@ class ProxyScraper:
         self.proxies = set()  # ([ip:port, ...])
         self.path_proxy_sources_file = path_proxy_sources_file
 
-    def scrape_proxies(self, url, socks=False):
+    def scrape_proxy_source(self, url, socks=False):
         source = get_sourcecode(url)
 
         if source:
@@ -75,10 +75,10 @@ class ProxyScraper:
 
             # guess if proxies scraped are SOCKS proxies
             if 'socks' in proxy_source:
-                t = threading.Thread(target=self.scrape_proxies, args=[proxy_source], kwargs={'socks': True})
+                t = threading.Thread(target=self.scrape_proxy_source, args=[proxy_source], kwargs={'socks': True})
 
             else:
-                t = threading.Thread(target=self.scrape_proxies, args=[proxy_source])
+                t = threading.Thread(target=self.scrape_proxy_source, args=[proxy_source])
 
             thread_list.append(t)
             t.start()
