@@ -22,7 +22,7 @@ class ProxyScraper:
         self.proxies = set()  # ([ip:port, ...])
         self.path_proxy_sources_file = path_proxy_sources_file
 
-    def scrape_proxies(self, url):
+    def scrape_proxies(self, url, socks=False):
         source = get_sourcecode(url)
 
         if source:
@@ -41,12 +41,22 @@ class ProxyScraper:
 
             proxies = re_proxy.findall(source)
             proxies_reverse = re_proxy_reverse.findall(source)
-            self.proxies.update(proxies)
+
+            for proxy in proxies:
+                if socks:
+                    proxy += ':socks5'
+
+                self.proxies.add(proxy)
 
             # turn reversed format (port:ip) into normal format (ip:port)
             for proxy in proxies_reverse:
                 proxy_parts = proxy.split(':')
-                self.proxies.add(proxy_parts[1] + ':' + proxy_parts[0])
+                proxy = proxy_parts[1] + ':' + proxy_parts[0]
+
+                if socks:
+                    proxy += ':socks5'
+
+                self.proxies.add(proxy)
 
     def scrape(self):
         proxy_sources = set()  # ([http://proxysite.com, ...])
@@ -63,8 +73,19 @@ class ProxyScraper:
             while threading.active_count() > 10:
                 sleep(0.5)
 
-            t = threading.Thread(target=self.scrape_proxies, args=[proxy_source])
+            # guess if proxies scraped are SOCKS proxies
+            if 'socks' in proxy_source:
+                t = threading.Thread(target=self.scrape_proxies, args=[proxy_source], kwargs={'socks': True})
+
+            else:
+                t = threading.Thread(target=self.scrape_proxies, args=[proxy_source])
+
+            thread_list.append(t)
             t.start()
+
+        # wait for scraping to be finished before returning
+        for t in thread_list:
+            t.join()
 
     def get(self):
         proxies = self.proxies
