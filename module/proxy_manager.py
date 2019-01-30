@@ -63,6 +63,9 @@ class ProxyManager:
                                            proxy_password])
 
     def get(self):
+        while len(self.proxies_ready) == 0:
+            sleep(0.5)
+            
         return self.proxies_ready.popleft()
 
     def disable(self, proxy, tested=False, retries=False, ban_flag=False):
