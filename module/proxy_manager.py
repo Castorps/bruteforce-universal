@@ -92,7 +92,6 @@ class ProxyManager:
             for proxy in list(self.proxies):
                 proxy_stats = self.proxies[proxy]
 
-
                 # calculate proxy success ratio and delete it if it's too bad
                 if (proxy_stats[3] + proxy_stats[4]) >= proxy_minimum_attempts and proxy_stats[4] > 0:
                     proxy_ratio = proxy_stats[3] / proxy_stats[4]
