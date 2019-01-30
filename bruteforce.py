@@ -47,12 +47,13 @@ def sessions_get(path_sessions_file):
     sessions = {}  # {combolist_hash: combolist_position, ...}
 
     try:
-        with open(path_sessions_file, 'r', encoding='utf-8', errors='ignore') as sessions_file:
-            for line in sessions_file:
-                if ':' in line:
-                    session = line.replace('\n', '').replace('\r', '').replace('\t', '')
-                    session_parts = session.split(':')
-                    sessions[session_parts[0]] = int(session_parts[1])
+        sessions_file = open(path_sessions_file, 'r')
+        sessions_lines = sessions_file.read().split('\n')
+        sessions_file.close()
+        
+        for i in range(len(sessions_lines) - 1):
+            session_parts = sessions_lines[i].split(':')
+            sessions[session_parts[0]] = int(session_parts[1])
 
     except:
         pass
@@ -63,7 +64,7 @@ def sessions_get(path_sessions_file):
 def sessions_update(path_sessions_file, file_hash, combos_position):
     sessions = sessions_get(path_sessions_file)
     sessions[file_hash] = combos_position
-    sessions_file = open(path_sessions_file, 'w+', encoding='utf-8', errors='ignore')
+    sessions_file = open(path_sessions_file, 'w+')
 
     for key in sessions:
         sessions_file.write(key + ':' + str(sessions[key]) + '\n')
