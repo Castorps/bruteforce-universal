@@ -39,7 +39,7 @@ class Bruter:
                         hits_file.close()
                         self.hits += 1
                 
-                # instagram throws error
+                # authentication site throws error
                 else:
                     self.proxy_manager.disable(proxy)
                     self.combo_queue.appendleft(combo)
@@ -54,28 +54,12 @@ class Bruter:
             self.retries += 1
 
     def bot(self):
-        
-        # bots automatically stop when self.isAlive == False
-        while self.isAlive:
-            combo = None
-            proxy = None
-            
-            try:
-                combo = self.combo_queue.popleft()
-                proxy = self.proxy_manager.get()
-                self.login(combo, proxy)
-
-            # no combo => attack complete, main thread will stop engine soon
-            # no proxy => return combo to queue
-            except IndexError:
-                if combo and not proxy:
-                    self.combo_queue.appendleft(combo)
-
-                sleep(1)
+        while self.isAlive and len(self.combo_queue):
+            combo = self.combo_queue.popleft()
+            proxy = self.proxy_manager.get()
+            self.login(combo, proxy)
 
     def stop(self):
-        
-        # for bots to stop
         self.isAlive = False
         
         # wait for bots to finish
