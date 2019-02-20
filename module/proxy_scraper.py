@@ -3,7 +3,7 @@ import ssl
 import threading
 import urllib.request
 from time import sleep
-from sys import path
+from sys import (path, platform)
 
 
 def string_between(string_input, string_leading, string_trailing):
@@ -21,6 +21,13 @@ def string_between(string_input, string_leading, string_trailing):
             return matches
 
 
+def get_path_separator():
+    if 'linux' in platform or 'darwin' in platform:
+        return '/'
+    elif 'win' in platform:
+        return '\\'
+    else:
+        return '/'
 def get_sourcecode(url):
     try:
         ssl._create_default_https_context = ssl._create_unverified_context
@@ -30,17 +37,6 @@ def get_sourcecode(url):
 
     except:
         return None
-
-
-def get_path_separator():
-    if 'linux' in platform or 'darwin' in platform:
-        return '/'
-    elif 'win' in platform:
-        return '\\'
-    else:
-        return '/'
-
-
 class ProxyScraper:
 
     def __init__(self, path_proxy_sources_file):
@@ -53,7 +49,6 @@ class ProxyScraper:
         re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         source = get_sourcecode(url)
         proxy_count = 0
-        
         if source:
 
             replacements = {'&lt;': '<',
@@ -63,16 +58,14 @@ class ProxyScraper:
                             '"': ':',
                             ',': ':',
                             'IP': ':',
-                            'PORT': ':',}
-            
-            source = re.sub(' +', ':', source)  # replace multiple whitespaces with ':'
+                            'PORT': ':', }
 
+            source = re.sub(' +', ':', source)  # replace multiple whitespaces with ':'
             # modify sourcecode so regular expressions can scrape more
             for key in replacements:
                 source = source.replace(key, replacements[key])
-                
-            source = re.sub(':+', ':', source)  # replace multiple ':' with just one
 
+            source = re.sub(':+', ':', source)  # replace multiple ':' with just one
             proxies = re_proxy.findall(source)
             proxies_reverse = re_proxy_reverse.findall(source)
             proxy_count += len(proxies)
