@@ -55,20 +55,22 @@ class ProxyScraper:
         proxy_count = 0
         if source:
 
-            replacements = {' ': '',
-                            '&lt;': '<',
+            replacements = {'&lt;': '<',
                             '&gt;': '>',
                             '</td><td>': ':',
                             '</a>': ':',
-                            '", "': ':',
-                            '","PORT":"': ':',
-                            ',"': ':',
-                            ':::': ':',
-                            '::': ':'}
+                            '"': ':',
+                            ',': ':',
+                            'IP': ':',
+                            'PORT': ':',}
+            
+            source = re.sub(' +', ':', source)  # replace multiple whitespaces with ':'
 
             # modify sourcecode so regular expressions can scrape more
             for key in replacements:
                 source = source.replace(key, replacements[key])
+                
+            source = re.sub(':+', ':', source)  # replace multiple ':' with just one
 
             proxies = re_proxy.findall(source)
             proxies_reverse = re_proxy_reverse.findall(source)
