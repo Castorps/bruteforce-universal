@@ -120,7 +120,7 @@ class ProxyScraper:
         for t in thread_list:
             t.join()
 
-        proxy_source_stats_file = open(path[0] + get_path_separator() + 'proxy_sources_stats.txt', 'w+',
+        proxy_source_stats_file = open(path[0] + get_path_separator() + 'proxy_sources_log', 'w+',
                                        encoding='utf-8', errors='ignore')
 
         for proxy_source in self.proxy_source_stats:
