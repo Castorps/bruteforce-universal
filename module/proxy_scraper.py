@@ -123,7 +123,7 @@ class ProxyScraper:
         proxy_source_stats_file = open(path[0] + get_path_separator() + 'proxy_sources_log', 'w+',
                                        encoding='utf-8', errors='ignore')
 
-        for proxy_source in self.proxy_source_stats:
+        for proxy_source in sorted(self.proxy_source_stats):
             proxy_source_stats_file.write(proxy_source + ' : ' + str(self.proxy_source_stats[proxy_source]) + '\n')
 
         proxy_source_stats_file.close()
