@@ -30,6 +30,8 @@ def get_sourcecode(url):
 
     except:
         return None
+
+
 def get_path_separator():
     if 'linux' in platform or 'darwin' in platform:
         return '/'
@@ -37,6 +39,8 @@ def get_path_separator():
         return '\\'
     else:
         return '/'
+
+
 class ProxyScraper:
 
     def __init__(self, path_proxy_sources_file):
