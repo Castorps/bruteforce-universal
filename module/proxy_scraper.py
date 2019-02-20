@@ -53,6 +53,7 @@ class ProxyScraper:
         re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         source = get_sourcecode(url)
         proxy_count = 0
+        
         if source:
 
             replacements = {'&lt;': '<',
