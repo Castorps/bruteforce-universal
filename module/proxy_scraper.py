@@ -9,6 +9,7 @@ from sys import (path, platform)
 def string_between(string_input, string_leading, string_trailing):
     matches = []
     occurrence = 0
+
     while True:
         try:
             string_leading_index = string_input.index(string_leading, occurrence)
@@ -22,12 +23,17 @@ def string_between(string_input, string_leading, string_trailing):
 
 
 def get_path_separator():
+
     if 'linux' in platform or 'darwin' in platform:
         return '/'
+
     elif 'win' in platform:
         return '\\'
+
     else:
         return '/'
+
+
 def get_sourcecode(url):
     try:
         ssl._create_default_https_context = ssl._create_unverified_context
@@ -37,6 +43,8 @@ def get_sourcecode(url):
 
     except:
         return None
+
+
 class ProxyScraper:
 
     def __init__(self, path_proxy_sources_file):
@@ -49,6 +57,7 @@ class ProxyScraper:
         re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         source = get_sourcecode(url)
         proxy_count = 0
+        
         if source:
 
             replacements = {'&lt;': '<',
@@ -58,14 +67,16 @@ class ProxyScraper:
                             '"': ':',
                             ',': ':',
                             'IP': ':',
-                            'PORT': ':', }
+                            'PORT': ':'}
 
             source = re.sub(' +', ':', source)  # replace multiple whitespaces with ':'
+            
             # modify sourcecode so regular expressions can scrape more
             for key in replacements:
                 source = source.replace(key, replacements[key])
 
             source = re.sub(':+', ':', source)  # replace multiple ':' with just one
+            
             proxies = re_proxy.findall(source)
             proxies_reverse = re_proxy_reverse.findall(source)
             proxy_count += len(proxies)
@@ -75,6 +86,7 @@ class ProxyScraper:
             for proxy in proxies:
                 if socks:
                     proxy += ':socks5'
+
                 self.proxies.add(proxy)
 
             # turn reversed format (port:ip) into normal format (ip:port)
@@ -84,6 +96,7 @@ class ProxyScraper:
 
                 if socks:
                     proxy += ':socks5'
+
                 self.proxies.add(proxy)
 
     def scrape(self):
