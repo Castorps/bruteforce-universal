@@ -15,11 +15,6 @@ class ProxyManager:
         return len(self.proxies)
 
     def put(self, proxy_list):
-        
-        # list to avoid chaning dictionary during loop
-        # if dictionary changes during loop through it, error gets raised
-        proxies_keys = list(self.proxies)
-        
         # add proxies to self.proxies
         # parse ip, port, type, username, password
         for proxy in proxy_list:
@@ -27,40 +22,39 @@ class ProxyManager:
             proxy_ip = proxy_parts[0]
             proxy_port = proxy_parts[1]
 
-            if (proxy_ip + ':' + proxy_port) not in proxies_keys:
-                if len(proxy_parts) == 2:
-                    proxy_type = 'http'
-                    proxy_username = None
-                    proxy_password = None
+            if len(proxy_parts) == 2:
+                proxy_type = 'http'
+                proxy_username = None
+                proxy_password = None
 
-                if 2 < len(proxy_parts) < 5:
-                    proxy_type = proxy_parts[2]
-                    proxy_username = None
-                    proxy_password = None
+            if 2 < len(proxy_parts) < 5:
+                proxy_type = proxy_parts[2]
+                proxy_username = None
+                proxy_password = None
 
-                if len(proxy_parts) >= 5:
-                    proxy_type = proxy_parts[2]
-                    proxy_username = proxy_parts[3]
-                    proxy_password = proxy_parts[4]
+            if len(proxy_parts) >= 5:
+                proxy_type = proxy_parts[2]
+                proxy_username = proxy_parts[3]
+                proxy_password = proxy_parts[4]
 
-                proxy_type = proxy_type.lower()
+            proxy_type = proxy_type.lower()
                 
-                if proxy_type not in ['http', 'socks5', 'socks5h']:
-                    proxy_type = 'http'
+            if proxy_type not in ['http', 'socks5', 'socks5h']:
+                proxy_type = 'http'
 
-                self.proxies[proxy_ip + ':' + proxy_port] = [proxy_type,   # type
-                                                             proxy_username,   # username
-                                                             proxy_password,   # password
-                                                             0,   # tested
-                                                             0,   # retries
-                                                             None,   # disabled timestamp
-                                                             False]  # ban flag
+            self.proxies[proxy_ip + ':' + proxy_port] = [proxy_type,   # type 
+                                                         proxy_username,   # username
+                                                         proxy_password,   # password
+                                                         0,   # tested
+                                                         0,   # retries
+                                                         None,   # disabled timestamp
+                                                         False]  # ban flag
 
-                # add proxy to pool of 'ready' proxies
-                self.proxies_ready.append([proxy_ip + ':' + proxy_port,
-                                           proxy_type,
-                                           proxy_username,
-                                           proxy_password])
+            # add proxy to pool of 'ready' proxies
+            self.proxies_ready.append([proxy_ip + ':' + proxy_port, 
+                                       proxy_type, 
+                                       proxy_username, 
+                                       proxy_password])
 
     def get(self):
         while len(self.proxies_ready) == 0:
