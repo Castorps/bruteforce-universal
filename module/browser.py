@@ -11,11 +11,12 @@ class Browser:
         self.payload = {}  # {payload_field: payload_value, ...}
         self.auth_type = None
 
-    def create(self):
+    def create_session(self):
         self.session = Session()
 
         if auth_ssl:
             self.auth_type = 'https'
+
         else:
             self.auth_type = 'http'
 
@@ -25,6 +26,7 @@ class Browser:
         # set authentication by look at username and password of proxy
         if not proxy[2] or not proxy[3]:
             proxy_auth = ''
+
         else:
             proxy_auth = proxy[2] + ':' + proxy[3] + '@'
 
