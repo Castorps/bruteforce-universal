@@ -38,8 +38,8 @@ class Bruter:
 
                     if debug:
 
-                        debug_message = ('Proxy: ' + proxy[0] + ' (' + proxy[1] + '); \t' +
-                                         'Payload: ' + str(browser.payload) + '; \t' +
+                        debug_message = ('Proxy: ' + proxy[0] + ' (' + proxy[1] + '); ' +
+                                         'Payload: ' + str(browser.payload) + '; ' +
                                          'Response: ' + response.text + ';\n')
 
                         self.debug_messages.append(debug_message)
