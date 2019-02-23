@@ -7,7 +7,6 @@ from asciimatics.screen import Screen
 from collections import deque
 from hashlib import md5
 from sys import (path, platform)
-from threading import Thread
 from time import (sleep, time)
 
 
@@ -74,7 +73,7 @@ def sessions_update(path_sessions_file, file_hash, combos_position):
 
 def screen_clear(screen, lines):
     for i in range(lines):
-        screen.print_at(' ' * 80, 0, i+1)
+        screen.print_at(' ' * 120, 0, i+1)
 
 
 def main(screen):
@@ -93,11 +92,11 @@ def main(screen):
     else:
         path_separator = '/'
 
-    path_hits_file = path[0] + path_separator + 'hits.txt'
-    path_proxy_sources_file = path[0] + path_separator + 'proxy_sources'
+    path_proxy_sources_file = path[0] + path_separator + 'proxy_sources.txt'
+    path_proxy_sources_log_file = path[0] + path_separator + 'proxy_sources_log.txt'
     path_sessions_file = path[0] + path_separator + 'sessions'
 
-    # get session for combolist
+    # get session (position) for combolist
     combo_file_hash = get_md5_hash(args.combo_file)
     sessions = sessions_get(path_sessions_file)
 
@@ -114,27 +113,27 @@ def main(screen):
 
     # initialize proxy scraper and scrape proxies
     screen_clear(screen, 1)
-    screen.print_at('Bruter Status:' + ' ' * 2 + 'Getting Proxies', 2, 1)
+    screen.print_at('Bruter Status:' + ' ' * 2 + 'Scraping Proxies', 2, 1)
     screen.refresh()
-    proxy_scraper = ProxyScraper(path_proxy_sources_file)
+    proxy_scraper = ProxyScraper(path_proxy_sources_file, path_proxy_sources_log_file)
     proxy_scraper.scrape()
 
     # initialize proxy manager and feed it scraper's proxies
-    # start proxy maintaining thread
+    screen_clear(screen, 1)
+    screen.print_at('Bruter Status:' + ' ' * 2 + 'Adding Proxies', 2, 1)
+    screen.refresh()
     proxy_manager = ProxyManager()
     proxy_manager.put(proxy_scraper.get())
-    proxy_manager_thread = Thread(target=proxy_manager.start)
-    proxy_manager_thread.daemon = True
-    proxy_manager_thread.start()
+    proxy_manager.start()
 
     # initialize engine
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Starting Bots', 2, 1)
     screen.refresh()
-    engine = Bruter(args.bots, combo_queue, proxy_manager, path_hits_file)
+    engine = Bruter(args.bots, combo_queue, proxy_manager)
     engine.start()
 
-    # initialize performance variables
+    # initialize performance tracking variables
     tested_per_min = 0
     attempts_per_min = 0
     tested_before_last_min = 0
@@ -182,11 +181,15 @@ def main(screen):
                 attempts_before_last_min = (engine.tested + engine.retries)
 
             # fetch new proxies if there are too few left
-            if proxy_manager.size <= proxies_minimum:
+            if proxy_manager.size < proxies_minimum:
                 screen_clear(screen, 1)
-                screen.print_at('Bruter Status:' + ' ' * 9 + 'Getting Proxies', 2, 1)
+                screen.print_at('Bruter Status:' + ' ' * 9 + 'Scraping Proxies', 2, 1)
                 screen.refresh()
                 proxy_scraper.scrape()
+
+                screen_clear(screen, 1)
+                screen.print_at('Bruter Status:' + ' ' * 9 + 'Adding Proxies', 2, 1)
+                screen.refresh()
                 proxy_manager.put(proxy_scraper.get())
 
             sleep(0.25)
@@ -204,7 +207,6 @@ def main(screen):
     screen.refresh()
     engine.stop()
     proxy_manager.stop()
-    proxy_manager_thread.join()
 
     exit()
 
