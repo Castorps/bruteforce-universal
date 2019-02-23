@@ -106,7 +106,7 @@ class ProxyScraper:
 
         # scrape proxy sources
         for proxy_source in proxy_sources:
-            while threading.active_count() > 10:
+            while threading.active_count() >= 10:
                 sleep(0.5)
 
             # scrape multiple sites simultaneously; guess if source provides socks proxies or not
