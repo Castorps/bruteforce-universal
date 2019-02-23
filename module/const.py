@@ -2,10 +2,10 @@
 
 # Main Script
 combos_max = 1000000  # maximum number of combos to load into memory
-debug = True  # log each successful request (proxy ip + port + type, payload, response)
+debug = False  # log each successful request (proxy ip + port + type, payload, response)
 
 # Proxy Manager
-proxies_minimum = 40  # if proxy list is smaller or equal, scrape proxies
+proxies_minimum = 100  # if proxy list is smaller, scrape proxies
 proxy_ban_time = 30  # time to wait after proxy ban to use it again
 proxy_minimum_attempts = 3  # minimum attempts proxy has to do before calculating success ratio
 proxy_success_ratio = 1/2  # = tested / retries, proxy gets deleted if value is smaller
