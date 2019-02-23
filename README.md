@@ -2,7 +2,7 @@
 
 # Instagram Bruter:
 
-![Version 1.9](https://img.shields.io/badge/Version-v1.9-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
+![Version 2.0](https://img.shields.io/badge/Version-v2.0-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
 
 This script bruteforces Instagram accounts using a combolist. You have to provide the path to a combolist and how many bots you would like to use. To view found credentials, look at hits.txt in the script's directory.
 
