@@ -3,7 +3,6 @@ import ssl
 import threading
 import urllib.request
 from time import sleep
-from sys import (path, platform)
 
 
 def string_between(string_input, string_leading, string_trailing):
@@ -22,18 +21,6 @@ def string_between(string_input, string_leading, string_trailing):
             return matches
 
 
-def get_path_separator():
-
-    if 'linux' in platform or 'darwin' in platform:
-        return '/'
-
-    elif 'win' in platform:
-        return '\\'
-
-    else:
-        return '/'
-
-
 def get_sourcecode(url):
     try:
         ssl._create_default_https_context = ssl._create_unverified_context
@@ -47,17 +34,18 @@ def get_sourcecode(url):
 
 class ProxyScraper:
 
-    def __init__(self, path_proxy_sources_file):
-        self.proxies = set()  # ([ip:port, ...])
+    def __init__(self, path_proxy_sources_file, path_proxy_sources_log_file):
+        self.proxies = set()  # ([ip:port:type:username:password, ...]; ip:port mandatory)
+        self.proxy_source_log = {}  # {url: number_of_proxies_collected, ...}
         self.path_proxy_sources_file = path_proxy_sources_file
-        self.proxy_source_stats = {}
+        self.path_proxy_sources_log_file = path_proxy_sources_log_file
 
-    def scrape_url(self, url, socks=False):
-        re_proxy = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,6}')
-        re_proxy_reverse = re.compile('\d{1,6}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
+    def scrape_website(self, url, socks=False):
+        re_proxy = re.compile('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{2,5}')
+        re_proxy_reverse = re.compile('\d{2,5}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         source = get_sourcecode(url)
         proxy_count = 0
-        
+
         if source:
 
             replacements = {'&lt;': '<',
@@ -70,18 +58,23 @@ class ProxyScraper:
                             'PORT': ':'}
 
             source = re.sub(' +', ':', source)  # replace multiple whitespaces with ':'
-            
+
             # modify sourcecode so regular expressions can scrape more
             for key in replacements:
                 source = source.replace(key, replacements[key])
 
             source = re.sub(':+', ':', source)  # replace multiple ':' with just one
-            
             proxies = re_proxy.findall(source)
             proxies_reverse = re_proxy_reverse.findall(source)
+
+            # keep track of how many proxies each proxy source provided
             proxy_count += len(proxies)
             proxy_count += len(proxies_reverse)
-            self.proxy_source_stats[url] = proxy_count
+
+            if url in self.proxy_source_log:
+                proxy_count += self.proxy_source_log[url]
+
+            self.proxy_source_log[url] = proxy_count
 
             for proxy in proxies:
                 if socks:
@@ -100,7 +93,7 @@ class ProxyScraper:
                 self.proxies.add(proxy)
 
     def scrape(self):
-        self.proxy_source_stats = {}
+        self.proxy_source_log = {}
         proxy_sources = set()
         thread_list = []
 
@@ -116,26 +109,24 @@ class ProxyScraper:
             while threading.active_count() > 10:
                 sleep(0.5)
 
+            # scrape multiple sites simultaneously; guess if source provides socks proxies or not
             if 'socks' in proxy_source:
-                t = threading.Thread(target=self.scrape_url, args=[proxy_source], kwargs={'socks': True})
+                t = threading.Thread(target=self.scrape_website, args=[proxy_source], kwargs={'socks': True})
 
             else:
-                t = threading.Thread(target=self.scrape_url, args=[proxy_source])
+                t = threading.Thread(target=self.scrape_website, args=[proxy_source])
 
-            thread_list.append(t)
             t.start()
+            thread_list.append(t)
 
         # wait for scraping to be finished before returning to main thread
         for t in thread_list:
             t.join()
 
-        proxy_source_stats_file = open(path[0] + get_path_separator() + 'proxy_sources_log', 'w+',
-                                       encoding='utf-8', errors='ignore')
-
-        for proxy_source in sorted(self.proxy_source_stats):
-            proxy_source_stats_file.write(proxy_source + ' : ' + str(self.proxy_source_stats[proxy_source]) + '\n')
-
-        proxy_source_stats_file.close()
+        # log how many proxies each proxy source provided
+        with open(self.path_proxy_sources_log_file, 'w+', encoding='utf-8', errors='ignore') as proxy_source_log_file:
+            for proxy_source in sorted(self.proxy_source_log):
+                proxy_source_log_file.write(proxy_source + ': ' + str(self.proxy_source_log[proxy_source]) + '\n')
 
     def get(self):
         proxies = self.proxies
