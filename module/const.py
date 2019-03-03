@@ -13,11 +13,13 @@ proxy_timeout = 10  # time to wait before using proxy again
 
 # Browser
 auth_ssl = True
+payload_json = True  # converts payload to json if true
+payload_put = True  # if True: put, False: post
 connection_timeout = 10
-headers = {}  # {<header_name>: <header_value>}
-headers_cookies = {'X-CSRFToken': 'csrftoken'}  # {<header_name>: <cookie_name>} (value will be cookie's value)
-home_url = 'https://www.instagram.com/'  # used to get cookies
 login_url = 'https://www.instagram.com/accounts/login/ajax/'  # used for authentication
+home_url = 'https://www.instagram.com/'  # used to get cookies
+headers = {}  # {<header_name>: <header_value>}
+headers_cookies = {'X-CSRFToken': 'csrftoken'}  # {<header_name>: <cookie_name>} (value will be cookie's value); empty? => won't look for cookies
 payload = {'username': '{username}', 'password': '{password}'}  # {<field_name>: <field_value>}, use {username/password}
 response_success = '"authenticated": true'  # if this is found in the response, authentication succeeded
 response_error = 'generic_request_error'  # if this is found in the response, there was an error
