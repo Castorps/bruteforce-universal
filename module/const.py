@@ -13,8 +13,8 @@ proxy_timeout = 10  # time to wait before using proxy again
 
 # Browser
 auth_ssl = True
-payload_json = True  # converts payload to json if true
-payload_put = True  # if True: put, False: post
+payload_json = False  # converts payload to json if true
+payload_put = False  # if True: put, False: post
 connection_timeout = 10
 login_url = 'https://www.instagram.com/accounts/login/ajax/'  # used for authentication
 home_url = 'https://www.instagram.com/'  # used to get cookies
