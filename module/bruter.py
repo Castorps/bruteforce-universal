@@ -26,23 +26,23 @@ class Bruter:
             browser = Browser()
             browser.create_session()
             browser.set_details(combo, proxy)
-            browser.set_header()
             browser.build_payload()
+            browser.set_header()
             response = browser.post()
+
+            if debug:
+
+                debug_message = ('Proxy: ' + proxy[0] + ' (' + proxy[1] + '); ' +
+                                         'Payload: ' + str(browser.payload) + '; ' +
+                                         'Response: ' + response.text + ';\n')
+
+                self.debug_messages.append(debug_message)
 
             if response.ok:
                 if response_error not in response.text:
                     self.proxy_manager.disable(proxy, tested=True)
                     self.tested += 1
                     self.last_combo = combo
-
-                    if debug:
-
-                        debug_message = ('Proxy: ' + proxy[0] + ' (' + proxy[1] + '); ' +
-                                         'Payload: ' + str(browser.payload) + '; ' +
-                                         'Response: ' + response.text + ';\n')
-
-                        self.debug_messages.append(debug_message)
 
                     if response_success in response.text:
                         hits_file = open(self.path_hits_file, 'a+', encoding='utf-8', errors='ignore')
