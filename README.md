@@ -70,7 +70,7 @@ If you want to use your own proxies you have to harvest them using [Proxy Scrape
 
 To add a proxy type (supported types: `http`, `socks5`, `socks5h`) append a colon and a type: `ip:port:type`
 
-If a proxy requires username:password authentication, append the username and the password with a colon as separator: `ip:port:username:password`
+If a proxy requires username:password authentication, append the username and the password with a colon as separator: `ip:port:type:username:password`
 
 A few examples:
 
@@ -88,7 +88,7 @@ A few examples:
 
 
 ### Notes: 
-  - It shouldn't be too hard to use this tool for other websites, if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately.
+  - The default setup is configured for Instagram, but if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py)) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately, you can use this tool for other websites.
 
 
 #### ~~~ Inspired by [Pure-L0G1C's Instagram Bruteforce Tool](https://github.com/Pure-L0G1C/Instagram) ~~~
