@@ -1,6 +1,6 @@
 
 
-# Instagram Bruter:
+# Bruteforce Tool:
 
 ![Version 2.1](https://img.shields.io/badge/Version-v2.1-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
 
