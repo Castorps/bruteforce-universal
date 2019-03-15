@@ -35,12 +35,15 @@ Like this:
 
 ### Dependencies:
   - asciimatics
+  - bs4
   - requests
   - requests[socks]
  
  Install these using Python's pip:
  
     python -m pip install asciimatics
+    
+    python -m pip install bs4
 
     python -m pip install requests
 
