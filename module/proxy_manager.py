@@ -43,7 +43,7 @@ class ProxyManager:
             proxy_type = proxy_type.lower()
                 
             if proxy_type not in ['http', 'socks5', 'socks5h']:
-                proxy_type = 'http' 
+                proxy_type = 'http'
 
             self.proxies[proxy_ip + ':' + proxy_port] = [proxy_type,  # type
                                                          proxy_username,  # username
@@ -61,8 +61,8 @@ class ProxyManager:
                                            proxy_password])
 
     def get(self):
-        while not len(self.proxies_ready) and self.isAlive:
-            sleep(0.5)
+        while not self.size and self.isAlive:
+            sleep(0.25)
             
         return self.proxies_ready.popleft()
 
