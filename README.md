@@ -68,7 +68,7 @@ If you want to change other variables (like the connection timeout and how long 
 #### Advanced Configuration: Personal Proxies / Proxy Type / Proxy Authentication
 If you want to use your own proxies you have to harvest them using [Proxy Scraper's `scrape()` function](https://github.com/Castorps/Instagram-Bruter/blob/aebf33ea970156b6441c1eb321b839565d463116/module/proxy_scraper.py#L34). The proxies have to be passed on in `ip:port` format.
 
-To add a proxy type (supported types: `http`, `socks5`, `socks5h`) append a colon and a type: `ip:port:type`
+To add a proxy type (default is `http`; supported types: `http`, `socks5`, `socks5h`) append a colon and a type: `ip:port:type`
 
 If a proxy requires username:password authentication, append the username and the password with a colon as separator: `ip:port:type:username:password`
 
