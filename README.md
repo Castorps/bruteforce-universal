@@ -2,7 +2,7 @@
 
 # Instagram Bruter:
 
-![Version 2.0](https://img.shields.io/badge/Version-v2.0-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
+![Version 2.1](https://img.shields.io/badge/Version-v2.1-blue.svg) ![Python 3.x.x](https://img.shields.io/badge/Python-v3.x.x-yellow.svg)
 
 This script bruteforces Instagram accounts using a combolist. You have to provide the path to a combolist and how many bots you would like to use. To view found credentials, look at hits.txt in the script's directory.
 
@@ -91,7 +91,7 @@ A few examples:
 
 
 ### Notes: 
-  - The default setup is configured for Instagram, but if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py)) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately, you can use this tool for other websites.
+  - The default setup is configured for Instagram, but if you modify the [constants](https://github.com/Castorps/Instagram-Bruter/blob/master/module/const.py) and the [Browser](https://github.com/Castorps/Instagram-Bruter/blob/master/module/browser.py) appropriately, you can use this tool for other websites.
 
 
 #### ~~~ Inspired by [Pure-L0G1C's Instagram Bruteforce Tool](https://github.com/Pure-L0G1C/Instagram) ~~~
