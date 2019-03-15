@@ -208,8 +208,7 @@ def main(screen):
     engine.stop()
     proxy_manager.stop()
 
-    exit()
-
 
 if __name__ == '__main__':
     Screen.wrapper(main)
+    exit()
