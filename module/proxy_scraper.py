@@ -56,7 +56,7 @@ class ProxyScraper:
         re_proxy_reverse = re.compile('\d{2,5}:\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}')
         proxy_count = 0
 
-        if depth < 3 and url not in self.proxy_source_log:
+        if depth < 2 and url not in self.proxy_source_log:
             source = get_sourcecode(url)
         else:
             source = None
