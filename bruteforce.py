@@ -215,13 +215,14 @@ def main(screen):
             sleep(0.25)
 
     except KeyboardInterrupt:
+        pass
 
-        # save proxies to file for next run
-        proxies = proxy_manager.get_proxies()
+    # save proxies to file for next run
+    proxies = proxy_manager.get_proxies()
 
-        with open(path_proxy_last_run_file, 'w+') as proxy_last_run_file:
-            for proxy in proxies:
-                proxy_last_run_file.write(proxy + '\n')
+    with open(path_proxy_last_run_file, 'w+') as proxy_last_run_file:
+        for proxy in proxies:
+            proxy_last_run_file.write(proxy + '\n')
 
     # update session with new combo position
     combos_position = (combos_start + engine.tested)
