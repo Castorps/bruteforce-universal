@@ -94,6 +94,7 @@ def main(screen):
 
     path_proxy_sources_file = path[0] + path_separator + 'proxy_sources.txt'
     path_proxy_sources_log_file = path[0] + path_separator + 'proxy_sources_log.txt'
+    path_proxy_last_run_file = path[0] + path_separator + 'proxies_last_run.txt'
     path_sessions_file = path[0] + path_separator + 'sessions'
 
     # get session (position) for combolist
@@ -117,14 +118,33 @@ def main(screen):
     screen.refresh()
     proxy_scraper = ProxyScraper(path_proxy_sources_file, path_proxy_sources_log_file)
     proxy_scraper.scrape()
+    proxy_scraper_proxies = proxy_scraper.get()
+
+    # loading proxies from last run
+    screen_clear(screen, 1)
+    screen.print_at('Bruter Status:' + ' ' * 2 + 'Loading Proxies from last run', 2, 1)
+    screen.refresh()
+
+    try:
+        with open(path_proxy_last_run_file, 'r') as proxy_last_run_file:
+            for line in proxy_last_run_file:
+                if ':' in line:
+                    proxy = line.replace('\n', '').replace('\r', '').replace('\t', '')
+
+                    if proxy not in proxy_scraper_proxies:
+                        proxy_scraper_proxies.append(proxy)
+    except:
+        pass
 
     # initialize proxy manager and feed it scraper's proxies
     screen_clear(screen, 1)
     screen.print_at('Bruter Status:' + ' ' * 2 + 'Adding Proxies', 2, 1)
     screen.refresh()
     proxy_manager = ProxyManager()
-    proxy_manager.put(proxy_scraper.get())
+    proxy_manager.put(proxy_scraper_proxies)
     proxy_manager.start()
+
+    del proxy_scraper_proxies  # save memory
 
     # initialize engine
     screen_clear(screen, 1)
@@ -195,7 +215,13 @@ def main(screen):
             sleep(0.25)
 
     except KeyboardInterrupt:
-        pass
+
+        # save proxies to file for next run
+        proxies = proxy_manager.get_proxies()
+
+        with open(path_proxy_last_run_file, 'w+') as proxy_last_run_file:
+            for proxy in proxies:
+                proxy_last_run_file.write(proxy + '\n')
 
     # update session with new combo position
     combos_position = (combos_start + engine.tested)
