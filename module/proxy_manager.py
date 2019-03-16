@@ -16,6 +16,22 @@ class ProxyManager:
     def size(self):
         return len(self.proxies)
 
+    def get_proxies(self):
+        output = []
+
+        for proxy in self.proxies:
+            proxy_stats = self.proxies[proxy]
+
+            if proxy_stats[0] != 'http':
+                proxy += ':' + proxy_stats[0]
+
+            if proxy_stats[1] and proxy_stats[2]:
+                proxy += ':' + proxy_stats[1] + ':' + proxy_stats[2]
+
+            output.append(proxy)
+
+        return output
+
     def put(self, proxy_list):
         
         # add proxies from proxy_list ([ip:port:type:username:password, ...]; ip:port mandatory) to self.proxies
@@ -62,7 +78,7 @@ class ProxyManager:
 
     def get(self):
         while not self.size and self.isAlive:
-            sleep(0.25)
+            sleep(0.2)
             
         return self.proxies_ready.popleft()
 
@@ -117,7 +133,7 @@ class ProxyManager:
                                                    proxy_stats[1],
                                                    proxy_stats[2]])
 
-            sleep(0.5)
+            sleep(0.25)
 
     def stop(self):
         self.isAlive = False
