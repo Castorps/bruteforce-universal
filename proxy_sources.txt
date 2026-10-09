@@ -140,3 +140,4 @@ https://www.socks-proxy.net/
 https://www.sslproxies.org/
 https://www.us-proxy.org/
 https://api.proxyscrape.com/?request=getproxies
+https://rcloak.com/api/proxies/raw?protocol=all
